@@ -1,22 +1,34 @@
 package Pantallas;
 
+import cjb.ci.Mensaje;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Enumeration;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author uriel
  */
-public class Login extends javax.swing.JFrame {
+public class LoginClient extends javax.swing.JFrame {
+
+    Players playerClient = new Players();
+    String ipHamachi = "";
+    int xy, xx;
 
     /**
      * Creates new form Login
      */
-    public Login() {        
+    public LoginClient() {
         initComponents();
+
         this.setLocationRelativeTo(null);
     }
 
@@ -34,8 +46,8 @@ public class Login extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
+        jTFUsername = new javax.swing.JTextField();
+        jTFIpServer = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         Acces = new javax.swing.JButton();
@@ -43,8 +55,23 @@ public class Login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jPanel5.setBackground(new java.awt.Color(254, 249, 231));
+        jPanel5.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                jPanel5MouseDragged(evt);
+            }
+        });
+        jPanel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jPanel5MousePressed(evt);
+            }
+        });
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel6.setBackground(new java.awt.Color(213, 241, 227));
@@ -77,13 +104,13 @@ public class Login extends javax.swing.JFrame {
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/logogoose.png"))); // NOI18N
         jPanel5.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 130, 70));
 
-        jTextField5.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField5.setText("Usuario");
-        jPanel5.add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 150, 190, 40));
+        jTFUsername.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTFUsername.setText("Usuario");
+        jPanel5.add(jTFUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 150, 190, 40));
 
-        jTextField6.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField6.setText("ID");
-        jPanel5.add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 250, 190, 40));
+        jTFIpServer.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTFIpServer.setText("ID");
+        jPanel5.add(jTFIpServer, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 250, 190, 40));
 
         jLabel11.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/ordenador-portatil.png"))); // NOI18N
@@ -140,24 +167,67 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void AccesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AccesActionPerformed
-        this.dispose();
-        Partida p= new Partida();
-        p.setVisible(true);
+        if (jTFIpServer.getText().equals("")) {
+            Mensaje.error(this, "Porfavor, ingresa la IP del servidor");
+        } else {
+            this.dispose();
+
+            playerClient.setIpHamachi(ipHamachi);
+            playerClient.setUsername(jTFUsername.getText());
+            playerClient.setIpServer(jTFIpServer.getText());
+
+            Partida p = new Partida(playerClient);
+            p.setVisible(true);
+        }
     }//GEN-LAST:event_AccesActionPerformed
 
     private void jLabel17MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel17MouseClicked
         System.exit(0);
     }//GEN-LAST:event_jLabel17MouseClicked
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        String aux = "";
+        Enumeration e = null;
+        try {
+            e = NetworkInterface.getNetworkInterfaces();
+        } catch (SocketException ex) {
+            Logger.getLogger(LoginClient.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        while (e.hasMoreElements()) {
+            NetworkInterface n = (NetworkInterface) e.nextElement();
+            Enumeration ee = n.getInetAddresses();
+            while (ee.hasMoreElements()) {
+                InetAddress i = (InetAddress) ee.nextElement();
+                aux = i.getHostAddress();
+                aux = aux.substring(0, 2);
+                if (aux.equals("25")) {
+                    ipHamachi = i.getHostAddress();
+                }
+
+            }
+        }
+        System.out.println("Mi ip de hamachi es: " + ipHamachi);
+    }//GEN-LAST:event_formWindowOpened
+
+    private void jPanel5MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseDragged
+        int x = evt.getXOnScreen();
+        int y = evt.getYOnScreen();
+        this.setLocation(x - xx, y - xy);
+    }//GEN-LAST:event_jPanel5MouseDragged
+
+    private void jPanel5MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MousePressed
+        xx = evt.getX();
+        xy = evt.getY();
+    }//GEN-LAST:event_jPanel5MousePressed
+
     /**
      * @param args the command line arguments
      */
-
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -167,20 +237,21 @@ public class Login extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginClient.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginClient.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginClient.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginClient.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login().setVisible(true);
+                new LoginClient().setVisible(true);
             }
         });
     }
@@ -194,7 +265,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField jTFIpServer;
+    private javax.swing.JTextField jTFUsername;
     // End of variables declaration//GEN-END:variables
 }
