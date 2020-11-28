@@ -1,5 +1,6 @@
 package Pantallas;
 
+import Atxy2k.CustomTextField.RestrictedTextField;
 import cjb.ci.Mensaje;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -7,6 +8,7 @@ import java.net.SocketException;
 import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -30,6 +32,12 @@ public class LoginClient extends javax.swing.JFrame {
         initComponents();
 
         this.setLocationRelativeTo(null);
+        
+        //Restricciones
+        RestrictedTextField Usuario = new RestrictedTextField(jTFUsername);
+        Usuario.setLimit(10);
+        RestrictedTextField IP= new RestrictedTextField(jTFIpServer);
+        IP.setLimit(15);
     }
 
     /**
@@ -167,8 +175,9 @@ public class LoginClient extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void AccesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AccesActionPerformed
-        if (jTFIpServer.getText().equals("")) {
-            Mensaje.error(this, "Porfavor, ingresa la IP del servidor");
+        //Aqui cambie la restriccion         
+        if ((jTFUsername.getText().length()<5)||(jTFIpServer.getText().length()<11)) {
+            Mensaje.error(this, "Porfavor, ingresa la IP del servidor o un Usuario correcto");
         } else {
             this.dispose();
 

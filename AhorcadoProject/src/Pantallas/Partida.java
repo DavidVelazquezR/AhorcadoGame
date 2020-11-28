@@ -1,5 +1,5 @@
 package Pantallas;
-
+import Atxy2k.CustomTextField.RestrictedTextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -30,6 +30,12 @@ public class Partida extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
 
+        //para restriccion en casilla
+        RestrictedTextField r= new RestrictedTextField(jTextField1);
+        r.setOnlyNums(false);
+        r.setOnlyText(true);
+        r.setAcceptSpace(true);
+        
         //para cronometro
         tiem = new Timer(10, acciones);
         playerClient = p;
@@ -103,6 +109,8 @@ public class Partida extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(254, 249, 231));
 
+        jTextField2.setEditable(false);
+        jTextField2.setBackground(new java.awt.Color(255, 255, 255));
         jTextField2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField2.setText("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ ");
@@ -127,7 +135,7 @@ public class Partida extends javax.swing.JFrame {
 
         jLabel7.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("00:00:00:00");
+        jLabel7.setText("00:00");
 
         jLabel8.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -285,13 +293,15 @@ public class Partida extends javax.swing.JFrame {
         }
 
     };
-
+    
     private void actualizarLabel() {
-        String tiempo = (h <= 9 ? "0" : "") + h + ":" + (m <= 9 ? "0" : "") + m + ":" + (s <= 9 ? "0" : "") + s + ":" + (cs <= 9 ? "0" : "") + cs;
+        //String tiempo = (h <= 9 ? "0" : "") + h + ":" + (m <= 9 ? "0" : "") + m + ":" + (s <= 9 ? "0" : "") + s + ":" + (cs <= 9 ? "0" : "") + cs;
+        String tiempo = (s <= 9 ? "0" : "") + s + ":" + (cs <= 9 ? "0" : "") + cs;
         jLabel7.setText(tiempo);
     }
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        
         /*
         String mensaje = "Soy " + playerClient.getUsername()
                 + " y mi ip es: " + playerClient.getIpHamachi();
@@ -299,7 +309,7 @@ public class Partida extends javax.swing.JFrame {
         Thread t = new Thread(c);
         t.start();
          */
-
+        
         //Iniciar temporizador
         tiem.start();
     }//GEN-LAST:event_formWindowOpened
@@ -312,6 +322,11 @@ public class Partida extends javax.swing.JFrame {
         this.dispose();
         LoginClient l = new LoginClient();
         l.setVisible(true);
+        //Parar el cronometro
+        if(tiem.isRunning()) 
+        {
+            tiem.stop();
+        }
     }//GEN-LAST:event_jLabel3MouseClicked
 
     private void jPanel1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseDragged
