@@ -10,8 +10,8 @@ Delimitación del problema	--- EDWIN ✔
 Definición de requerimientos	--- CHARLY ✔
 Requerimientos Funcionales	--- CHARLY ✔
 Requerimientos No Funcionales	--- CHARLY ✔
-Arquitectura SD			--- DAVID ❗
-Diseño				--- URIEL ❗
+Arquitectura SD			--- DAVID ✔
+Diseño				--- URIEL ✔
 Diagrama de casos de uso	--- DAVID ❗
 Diagrama de secuencias		--- EDWIN ❗
 Diagrama de bloques		--- EDWIN ❗
@@ -19,9 +19,9 @@ Diagrama entidad – relación	--- URIEL ✔
 Diccionario de datos		--- URIEL ✔
 Tablas relacionales		--- URIEL ✔
 Descripción de tablas		--- URIEL ✔
-Interfaces			--- DAVID ❗
+Interfaces			--- DAVID ✔
 Desarrollo			--- CESAR ❗
 Experimentación			--- CESAR ❗
 Resultados			--- CESAR ❗
 Conclusiones			--- CESAR ❗
-Referencias			--- CESAR ❗
+Referencias			--- CESAR ✔
