@@ -18,7 +18,7 @@ import javax.swing.Timer;
  *
  * @author uriel
  */
-public class Partida extends javax.swing.JFrame implements Observer {
+public class Partida extends javax.swing.JFrame {
 
     Players playerClient = new Players();
     int xy, xx;
@@ -29,17 +29,10 @@ public class Partida extends javax.swing.JFrame implements Observer {
     public Partida(Players p) {
         initComponents();
         this.setLocationRelativeTo(null);
-        
+
         //para cronometro
         tiem = new Timer(10, acciones);
-        
-        
         playerClient = p;
-        this.getRootPane().setDefaultButton(this.Acces);
-        Servidor s = new Servidor(5000);
-        s.addObserver(this);
-        Thread t = new Thread(s);
-        t.start();
 
     }
 
@@ -177,12 +170,13 @@ public class Partida extends javax.swing.JFrame implements Observer {
                 .addContainerGap()
                 .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Acces, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(Acces, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLMessage, javax.swing.GroupLayout.DEFAULT_SIZE, 17, Short.MAX_VALUE)
                 .addContainerGap())
@@ -263,42 +257,40 @@ public class Partida extends javax.swing.JFrame implements Observer {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     private Timer tiem;
-    private int h=0, m=0, s=30, cs;
-    
-    private ActionListener acciones = new ActionListener(){
+    private int h = 0, m = 0, s = 30, cs;
+
+    private ActionListener acciones = new ActionListener() {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            ++cs; 
-            if(cs==100){
+            ++cs;
+            if (cs == 100) {
                 cs = 0;
                 --s;
             }
-            if(s==60) 
-            {
+            if (s == 60) {
                 s = 0;
                 ++m;
             }
-            if(m==60)
-            {
+            if (m == 60) {
                 m = 0;
                 ++h;
             }
-            actualizarLabel();    
-            
-            if(s==0){
+            actualizarLabel();
+
+            if (s == 0) {
                 tiem.stop();
-                JOptionPane.showMessageDialog(null,"Tu tiempo se ha terminado", "LOSE", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Tu tiempo se ha terminado", "LOSE", JOptionPane.INFORMATION_MESSAGE);
             }
         }
-        
+
     };
-    
+
     private void actualizarLabel() {
-        String tiempo = (h<=9?"0":"")+h+":"+(m<=9?"0":"")+m+":"+(s<=9?"0":"")+s+":"+(cs<=9?"0":"")+cs;
+        String tiempo = (h <= 9 ? "0" : "") + h + ":" + (m <= 9 ? "0" : "") + m + ":" + (s <= 9 ? "0" : "") + s + ":" + (cs <= 9 ? "0" : "") + cs;
         jLabel7.setText(tiempo);
     }
-    
+
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         /*
         String mensaje = "Soy " + playerClient.getUsername()
@@ -306,8 +298,8 @@ public class Partida extends javax.swing.JFrame implements Observer {
         Cliente c = new Cliente(playerClient.getIpServer(), 5000, mensaje);
         Thread t = new Thread(c);
         t.start();
-        */
-        
+         */
+
         //Iniciar temporizador
         tiem.start();
     }//GEN-LAST:event_formWindowOpened
@@ -386,8 +378,4 @@ public class Partida extends javax.swing.JFrame implements Observer {
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public void update(Observable o, Object arg) {
-        this.jLMessage.setText((String) arg);
-    }
 }

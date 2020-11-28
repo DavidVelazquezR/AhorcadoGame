@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  *
  * @author uriel
  */
-public class LoginServer extends javax.swing.JFrame implements Observer {
+public class LoginServer extends javax.swing.JFrame {
 
     String ipHamachi = "";
     int xy, xx;
@@ -31,10 +31,6 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
         initComponents();
         this.setLocationRelativeTo(null);
 
-        Servidor s = new Servidor(5000);
-        s.addObserver(this);
-        Thread t = new Thread(s);
-        t.start();
     }
 
     /**
@@ -234,8 +230,4 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
     private javax.swing.JTextField jTFIPServer;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public void update(Observable o, Object arg) {
-        this.jTAHistory.append((String) arg);
-    }
 }
