@@ -1,14 +1,20 @@
 package Interfaz;
 
+import BD.ManipulaDBC;
+import BD.Querys;
 import java.awt.Color;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -23,6 +29,13 @@ public class LoginServer extends javax.swing.JFrame {
 
     String ipHamachi = "";
     int xy, xx;
+    Connection con;
+    ArrayList<Object> mapeoPalabras = new ArrayList<Object>();
+    ArrayList<Object> mapeoTema = new ArrayList<Object>();
+    ArrayList<Object> mapeoPista = new ArrayList<Object>();
+    ArrayList<Object> palabrasAhorcado = new ArrayList<Object>();
+
+    int ban = 4;
 
     /**
      * Creates new form Login
@@ -55,6 +68,9 @@ public class LoginServer extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
         addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
@@ -143,6 +159,9 @@ public class LoginServer extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel17MouseClicked
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        con = ManipulaDBC.conectaDB();
+        ArrayList<Object> numeroP = new ArrayList<Object>();
+
         String aux = "";
         Enumeration e = null;
         try {
@@ -167,6 +186,37 @@ public class LoginServer extends javax.swing.JFrame {
         jTFIPServer.setText(ipHamachi);
 
         jTFIPServer.setEditable(false);
+
+        //Guardar la bd en arraylist para mandarlos por sockets a los clientes
+        //palabrasAhorcado contendra las 4 palabras para las 4 rondas
+        Querys q = new Querys();
+
+        try {
+            mapeoPalabras = q.Seleccion(con, "Contenido", "palabras", "");
+            mapeoTema = q.Seleccion(con, "Tema", "palabras", "");
+            mapeoPista = q.Seleccion(con, "Pista", "palabras", "");
+        } catch (Exception er) {
+            System.out.println("Error en la seleccion de palabras ..." + er);
+        }
+        int sizeP = mapeoPalabras.size();
+
+        for (int i = 0; i < 4; i++) {
+            numeroP.add((int) Math.floor(Math.random() * (sizeP + 1)));
+        }
+
+        for (int i = 0; i < numeroP.size(); i++) {
+            palabrasAhorcado.add(((String) mapeoPalabras.get((int) numeroP.get(i))).trim());
+            palabrasAhorcado.add(((String) mapeoPista.get((int) numeroP.get(i))).trim());
+            palabrasAhorcado.add(((String) mapeoTema.get((int) numeroP.get(i))).trim());
+        }
+
+        for (int i = 0; i < 12; i = i + 3) {
+            System.out.println("\n");
+            System.out.println(palabrasAhorcado.get(i));
+            System.out.println(palabrasAhorcado.get(i + 1));
+            System.out.println(palabrasAhorcado.get(i + 2));
+        }
+
     }//GEN-LAST:event_formWindowOpened
 
     private void jPanel5MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseDragged
@@ -179,6 +229,18 @@ public class LoginServer extends javax.swing.JFrame {
         xx = evt.getX();
         xy = evt.getY();
     }//GEN-LAST:event_jPanel5MousePressed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        ManipulaDBC.desconectaDB(con);
+    }//GEN-LAST:event_formWindowClosed
+
+    public void agrega(ArrayList<Object> array, int n, JComboBox jc) {
+        int aux = 0;
+        for (int i = 0; i < n; i++) {
+            jc.addItem(array.get(aux));
+            aux = aux + 3;
+        }
+    }
 
     /**
      * @param args the command line arguments
