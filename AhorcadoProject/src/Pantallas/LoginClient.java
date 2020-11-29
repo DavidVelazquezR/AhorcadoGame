@@ -176,9 +176,12 @@ public class LoginClient extends javax.swing.JFrame {
 
     private void AccesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AccesActionPerformed
         //Aqui cambie la restriccion         
-        if ((jTFUsername.getText().length()<5)||(jTFIpServer.getText().length()<11)) {
-            Mensaje.error(this, "Porfavor, ingresa la IP del servidor o un Usuario correcto");
-        } else {
+        if ((jTFUsername.getText().length()>4) && (jTFUsername.getText().length()<11)) {
+            Mensaje.error(this, "Usuario debe tener de 5 a 10 caracteres");
+        } else if(jTFIpServer.getText().length()>16 && jTFIpServer.getText().length()<11){
+            Mensaje.error(this, "IP incorrecta");
+        }
+        else {
             this.dispose();
 
             playerClient.setIpHamachi(ipHamachi);
