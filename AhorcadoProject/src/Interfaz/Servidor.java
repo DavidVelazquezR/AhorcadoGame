@@ -52,6 +52,9 @@ public class Servidor extends Observable implements Runnable {
                     String mensaje = msj.getMensaje();
                     System.out.println(mensaje);
 
+                } else if (casosMensaje == 2) {
+                    String mensaje = msj.getMensaje();
+                    System.out.println(mensaje);
                 }
 
                 this.setChanged();

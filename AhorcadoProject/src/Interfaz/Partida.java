@@ -396,6 +396,9 @@ public class Partida extends javax.swing.JFrame implements Observer {
 
         if (obj.getTipoMensaje() == 0) {
             this.jLMessage.setText(obj.getMensaje());
+        } else if (obj.getTipoMensaje() == 2) {
+            this.jLMessage.setText(obj.getMensaje());
+            System.out.println("Palabra: " + obj.getPalabra());
         }
     }
 
