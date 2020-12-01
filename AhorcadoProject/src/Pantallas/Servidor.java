@@ -29,6 +29,7 @@ public class Servidor extends Observable implements Runnable {
         ObjectOutputStream outObjeto;
         ObjectInputStream inObjeto;
         Mensajes msj = null;
+        int casosMensaje = 0;
 
         try {
             //Creamos el socket del servidor
@@ -45,13 +46,9 @@ public class Servidor extends Observable implements Runnable {
                 inObjeto = new ObjectInputStream(sc.getInputStream());
 
                 //Leo el mensaje que me envia
-                try {
-                    msj = (Mensajes) inObjeto.readObject();
-                } catch (Exception e) {
-                    System.out.println("Error al recibir mensaje..." + e);
-                }
+                msj = (Mensajes) inObjeto.readObject();
 
-                int casosMensaje = msj.getTipoMensaje();
+                casosMensaje = msj.getTipoMensaje();
 
                 if (casosMensaje == 1) {
                     String mensaje = (String) msj.getMensaje();
@@ -65,12 +62,15 @@ public class Servidor extends Observable implements Runnable {
 
                 //Cierro el socket
                 sc.close();
+                inObjeto.close();
                 System.out.println("Cliente desconectado");
 
             }
 
         } catch (IOException ex) {
-            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("eror en el hilo del socket " + ex);
+        } catch (ClassNotFoundException ex) {
+            System.out.println("eror en el objeto del socket " + ex);
         }
 
     }

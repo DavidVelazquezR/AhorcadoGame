@@ -300,8 +300,7 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        arg = (String) arg + "\n";
-        this.jTAHistory.append((String) arg);
+        this.jTAHistory.append("\n" + ((Mensajes) arg).getMensaje());
     }
 
 }

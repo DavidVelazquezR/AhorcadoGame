@@ -38,6 +38,7 @@ public class Cliente implements Runnable {
 
             System.out.println("Se envio el mensaje: " + objetoMensaje.getMensaje());
             sc.close();
+            outObjeto.close();
 
         } catch (IOException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);

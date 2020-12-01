@@ -11,6 +11,7 @@ import java.io.Serializable;
  *
  * @author DavidVelazquez
  */
+@SuppressWarnings("serial")
 public class Mensajes implements Serializable {
 
     private String palabra;
@@ -24,6 +25,7 @@ public class Mensajes implements Serializable {
     private int score;
 
     public Mensajes() {
+        super();
     }
 
     public Mensajes(String palabra, String tema, String pista, int tipoMensaje, String mensaje, String ipHamachi, String username, String ipServer, int score) {

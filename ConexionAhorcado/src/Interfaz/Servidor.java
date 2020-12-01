@@ -62,6 +62,7 @@ public class Servidor extends Observable implements Runnable {
 
                 //Cierro el socket
                 sc.close();
+                inObjeto.close();
                 System.out.println("Cliente desconectado");
 
             }
