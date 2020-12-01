@@ -30,7 +30,7 @@ public class LoginClient extends javax.swing.JFrame {
      */
     public LoginClient() {
         initComponents();
-
+        jlespera.setVisible(false);
         this.setLocationRelativeTo(null);
 
         //Restricciones
@@ -60,6 +60,7 @@ public class LoginClient extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         Acces = new javax.swing.JButton();
         jLabel17 = new javax.swing.JLabel();
+        jlespera = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -154,6 +155,10 @@ public class LoginClient extends javax.swing.JFrame {
         });
         jPanel5.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 0, 40, 40));
 
+        jlespera.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jlespera.setText("Esperando Jugador");
+        jPanel5.add(jlespera, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 340, 130, 20));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -181,13 +186,20 @@ public class LoginClient extends javax.swing.JFrame {
         } else if (jTFIpServer.getText().length() > 16 && jTFIpServer.getText().length() < 11) {
             Mensaje.error(this, "IP incorrecta");
         } else {
-            this.dispose();
-
             playerClient.setIpHamachi(ipHamachi);
             playerClient.setUsername(jTFUsername.getText());
             playerClient.setIpServer(jTFIpServer.getText());
-
+            String mensaje = "Soy " + playerClient.getUsername() + " y mi ip es: " + playerClient.getIpHamachi();
+            playerClient.setMensaje(mensaje);
+            playerClient.setTipoMensaje(1);
+            Cliente c = new Cliente(playerClient.getIpServer(), 5000, playerClient);
+            Thread t = new Thread(c);
+            t.start();
+            boolean wait = true;
+            jlespera.setVisible(true);
+            
             Partida p = new Partida(playerClient);
+            this.dispose();
             p.setVisible(true);
         }
     }//GEN-LAST:event_AccesActionPerformed
@@ -278,5 +290,6 @@ public class LoginClient extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JTextField jTFIpServer;
     private javax.swing.JTextField jTFUsername;
+    private javax.swing.JLabel jlespera;
     // End of variables declaration//GEN-END:variables
 }

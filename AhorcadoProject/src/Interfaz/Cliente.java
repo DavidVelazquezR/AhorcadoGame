@@ -5,10 +5,11 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Cliente implements Runnable {
+public class Cliente  extends Observable implements Runnable {
 
     private String host;
     private int puerto;
@@ -26,7 +27,6 @@ public class Cliente implements Runnable {
         //Puerto del servidor
         DataOutputStream out;
         ObjectOutputStream outObjeto;
-
         try {
             //Creo el socket para conectarme con el cliente
             Socket sc = new Socket(host, puerto);
@@ -37,6 +37,7 @@ public class Cliente implements Runnable {
             outObjeto.writeObject(objetoMensaje);
 
             System.out.println("Se envio el mensaje: " + objetoMensaje.getMensaje());
+            
             sc.close();
             outObjeto.close();
 
