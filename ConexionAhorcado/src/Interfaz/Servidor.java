@@ -26,10 +26,8 @@ public class Servidor extends Observable implements Runnable {
 
         ServerSocket servidor = null;
         Socket sc = null;
-        DataInputStream in;
-        ObjectOutputStream outObjeto;
         ObjectInputStream inObjeto;
-        Mensajes msj = new Mensajes();
+        Mensajes msj = null;
         int casosMensaje = 0;
 
         try {
@@ -48,17 +46,16 @@ public class Servidor extends Observable implements Runnable {
 
                 //Leo el mensaje que me envia
                 msj = (Mensajes) inObjeto.readObject();
-
-                casosMensaje = msj.getTipoMensaje();
+                casosMensaje = (int) msj.getTipoMensaje();
 
                 if (casosMensaje == 1) {
-                    String mensaje = (String) msj.getMensaje();
+                    String mensaje = msj.getMensaje();
                     System.out.println(mensaje);
 
                 }
 
                 this.setChanged();
-                this.notifyObservers(casosMensaje);
+                this.notifyObservers(msj);
                 this.clearChanged();
 
                 //Cierro el socket

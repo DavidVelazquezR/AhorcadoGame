@@ -1,4 +1,4 @@
-package Pantallas;
+package Interfaz;
 
 import Atxy2k.CustomTextField.RestrictedTextField;
 import java.awt.event.ActionEvent;

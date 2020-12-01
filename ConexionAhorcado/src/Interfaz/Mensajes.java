@@ -15,22 +15,21 @@ import java.io.Serializable;
 public class Mensajes implements Serializable {
 
     private static final long serialVersionUID = 8799656478674716638L;
-    private String palabra;
-    private String tema;
-    private String pista;
-    private int tipoMensaje;
-    private String mensaje;
-    private String ipHamachi;
-    private String username;
-    private String ipServer;
-    private int score;
+    String palabra = null;
+    String tema = null;
+    String pista = null;
+    int tipoMensaje = 0;
+    String mensaje = null;
+    String ipHamachi = null;
+    String username = null;
+    String ipServer = null;
+    int score = 0;
 
     public Mensajes() {
-        super();
+
     }
 
     public Mensajes(String palabra, String tema, String pista, int tipoMensaje, String mensaje, String ipHamachi, String username, String ipServer, int score) {
-        super();
         this.palabra = palabra;
         this.tema = tema;
         this.pista = pista;

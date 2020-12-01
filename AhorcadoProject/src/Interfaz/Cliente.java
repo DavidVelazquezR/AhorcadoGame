@@ -1,4 +1,4 @@
-package Pantallas;
+package Interfaz;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

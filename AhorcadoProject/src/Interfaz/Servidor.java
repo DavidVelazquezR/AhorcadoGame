@@ -1,4 +1,4 @@
-package Pantallas;
+package Interfaz;
 
 import cjb.ci.Mensaje;
 import java.io.DataInputStream;
@@ -11,6 +11,7 @@ import java.net.Socket;
 import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import Interfaz.Mensajes;
 
 public class Servidor extends Observable implements Runnable {
 
@@ -25,8 +26,6 @@ public class Servidor extends Observable implements Runnable {
 
         ServerSocket servidor = null;
         Socket sc = null;
-        DataInputStream in;
-        ObjectOutputStream outObjeto;
         ObjectInputStream inObjeto;
         Mensajes msj = null;
         int casosMensaje = 0;
@@ -47,17 +46,16 @@ public class Servidor extends Observable implements Runnable {
 
                 //Leo el mensaje que me envia
                 msj = (Mensajes) inObjeto.readObject();
-
-                casosMensaje = msj.getTipoMensaje();
+                casosMensaje = (int) msj.getTipoMensaje();
 
                 if (casosMensaje == 1) {
-                    String mensaje = (String) msj.getMensaje();
+                    String mensaje = msj.getMensaje();
                     System.out.println(mensaje);
 
                 }
 
                 this.setChanged();
-                this.notifyObservers(casosMensaje);
+                this.notifyObservers(msj);
                 this.clearChanged();
 
                 //Cierro el socket
@@ -70,7 +68,7 @@ public class Servidor extends Observable implements Runnable {
         } catch (IOException ex) {
             System.out.println("eror en el hilo del socket " + ex);
         } catch (ClassNotFoundException ex) {
-            System.out.println("eror en el objeto del socket " + ex);
+            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }

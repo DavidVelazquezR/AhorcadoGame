@@ -3,6 +3,7 @@ package Interfaz;
 import BD.ManipulaDBC;
 import BD.Querys;
 import java.awt.Color;
+import java.awt.Menu;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -300,7 +301,14 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        this.jTAHistory.append("\n" + ((Mensajes) arg).getMensaje());
+        Mensajes obj = (Mensajes) arg;
+
+        if (obj.getTipoMensaje() == 1) {
+            this.jTAHistory.append(((Mensajes) arg).getMensaje());
+            counterUsers++;
+            System.out.println("Numero de usuarios conectados: " + counterUsers);
+        }
+
     }
 
 }
