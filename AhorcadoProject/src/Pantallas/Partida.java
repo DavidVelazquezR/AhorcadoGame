@@ -1,4 +1,5 @@
 package Pantallas;
+
 import Atxy2k.CustomTextField.RestrictedTextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,7 +19,7 @@ import javax.swing.Timer;
  *
  * @author uriel
  */
-public class Partida extends javax.swing.JFrame {
+public class Partida extends javax.swing.JFrame implements Observer {
 
     Players playerClient = new Players();
     int xy, xx;
@@ -31,14 +32,19 @@ public class Partida extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
 
         //para restriccion en casilla
-        RestrictedTextField r= new RestrictedTextField(jTextField1);
+        RestrictedTextField r = new RestrictedTextField(jTextField1);
         r.setOnlyNums(false);
         r.setOnlyText(true);
         r.setAcceptSpace(true);
-        
+
         //para cronometro
         tiem = new Timer(10, acciones);
         playerClient = p;
+
+        Servidor s = new Servidor(5000);
+        s.addObserver(this);
+        Thread t = new Thread(s);
+        t.start();
 
     }
 
@@ -293,7 +299,7 @@ public class Partida extends javax.swing.JFrame {
         }
 
     };
-    
+
     private void actualizarLabel() {
         //String tiempo = (h <= 9 ? "0" : "") + h + ":" + (m <= 9 ? "0" : "") + m + ":" + (s <= 9 ? "0" : "") + s + ":" + (cs <= 9 ? "0" : "") + cs;
         String tiempo = (s <= 9 ? "0" : "") + s + ":" + (cs <= 9 ? "0" : "") + cs;
@@ -301,7 +307,7 @@ public class Partida extends javax.swing.JFrame {
     }
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        
+
         /*
         String mensaje = "Soy " + playerClient.getUsername()
                 + " y mi ip es: " + playerClient.getIpHamachi();
@@ -309,7 +315,6 @@ public class Partida extends javax.swing.JFrame {
         Thread t = new Thread(c);
         t.start();
          */
-        
         //Iniciar temporizador
         tiem.start();
     }//GEN-LAST:event_formWindowOpened
@@ -323,8 +328,7 @@ public class Partida extends javax.swing.JFrame {
         LoginClient l = new LoginClient();
         l.setVisible(true);
         //Parar el cronometro
-        if(tiem.isRunning()) 
-        {
+        if (tiem.isRunning()) {
             tiem.stop();
         }
     }//GEN-LAST:event_jLabel3MouseClicked
@@ -392,5 +396,10 @@ public class Partida extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void update(Observable o, Object arg) {
+        //por si se quiere cambiar algo en cliente por respuesta del server
+    }
 
 }

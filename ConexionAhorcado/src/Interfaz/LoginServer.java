@@ -25,7 +25,7 @@ import javax.swing.JOptionPane;
  *
  * @author uriel
  */
-public class LoginServer extends javax.swing.JFrame {
+public class LoginServer extends javax.swing.JFrame implements Observer {
 
     String ipHamachi = "";
     int xy, xx;
@@ -43,6 +43,11 @@ public class LoginServer extends javax.swing.JFrame {
     public LoginServer() {
         initComponents();
         this.setLocationRelativeTo(null);
+
+        Servidor s = new Servidor(5000);
+        s.addObserver(this);
+        Thread t = new Thread(s);
+        t.start();
 
     }
 
@@ -98,14 +103,16 @@ public class LoginServer extends javax.swing.JFrame {
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(575, Short.MAX_VALUE)
-                .addComponent(jLabel9))
+                .addContainerGap(556, Short.MAX_VALUE)
+                .addComponent(jLabel9)
+                .addGap(19, 19, 19))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(0, 66, Short.MAX_VALUE)
-                .addComponent(jLabel9))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap(55, Short.MAX_VALUE)
+                .addComponent(jLabel9)
+                .addContainerGap())
         );
 
         jPanel5.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 360, 750, 80));
@@ -291,5 +298,11 @@ public class LoginServer extends javax.swing.JFrame {
     private javax.swing.JTextArea jTAHistory;
     private javax.swing.JTextField jTFIPServer;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void update(Observable o, Object arg) {
+        arg = (String) arg + "\n";
+        this.jTAHistory.append((String) arg);
+    }
 
 }
