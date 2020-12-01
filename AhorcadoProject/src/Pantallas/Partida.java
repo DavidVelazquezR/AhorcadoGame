@@ -312,6 +312,7 @@ public class Partida extends javax.swing.JFrame implements Observer {
                 + " y mi ip es: " + playerClient.getIpHamachi();
 
         playerClient.setMensaje(mensaje);
+        playerClient.setTipoMensaje(1);
         Cliente c = new Cliente(playerClient.getIpServer(), 5000, playerClient);
         Thread t = new Thread(c);
         t.start();

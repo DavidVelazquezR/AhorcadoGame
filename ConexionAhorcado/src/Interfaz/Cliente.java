@@ -12,13 +12,12 @@ public class Cliente implements Runnable {
 
     private String host;
     private int puerto;
-    private String mensaje;
     private Mensajes objetoMensaje;
 
     public Cliente(String host, int puerto, Mensajes objetoMensaje) {
         this.host = host;
         this.puerto = puerto;
-        this.mensaje = mensaje;
+        this.objetoMensaje = objetoMensaje;
     }
 
     @Override

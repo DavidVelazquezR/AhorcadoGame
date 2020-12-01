@@ -5,11 +5,13 @@
  */
 package Interfaz;
 
+import java.io.Serializable;
+
 /**
  *
  * @author DavidVelazquez
  */
-public class Mensajes {
+public class Mensajes implements Serializable {
 
     private String palabra;
     private String tema;
@@ -25,6 +27,7 @@ public class Mensajes {
     }
 
     public Mensajes(String palabra, String tema, String pista, int tipoMensaje, String mensaje, String ipHamachi, String username, String ipServer, int score) {
+        super();
         this.palabra = palabra;
         this.tema = tema;
         this.pista = pista;
