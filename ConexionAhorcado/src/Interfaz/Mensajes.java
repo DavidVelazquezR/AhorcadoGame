@@ -14,6 +14,7 @@ import java.io.Serializable;
 @SuppressWarnings("serial")
 public class Mensajes implements Serializable {
 
+    private static final long serialVersionUID = 8799656478674716638L;
     private String palabra;
     private String tema;
     private String pista;

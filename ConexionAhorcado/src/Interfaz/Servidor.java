@@ -11,6 +11,7 @@ import java.net.Socket;
 import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import Interfaz.Mensajes;
 
 public class Servidor extends Observable implements Runnable {
 
@@ -28,7 +29,7 @@ public class Servidor extends Observable implements Runnable {
         DataInputStream in;
         ObjectOutputStream outObjeto;
         ObjectInputStream inObjeto;
-        Mensajes msj = null;
+        Mensajes msj = new Mensajes();
         int casosMensaje = 0;
 
         try {
@@ -70,7 +71,7 @@ public class Servidor extends Observable implements Runnable {
         } catch (IOException ex) {
             System.out.println("eror en el hilo del socket " + ex);
         } catch (ClassNotFoundException ex) {
-            System.out.println("eror en el objeto del socket " + ex);
+            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }

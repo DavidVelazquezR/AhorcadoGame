@@ -11,8 +11,10 @@ import java.io.Serializable;
  *
  * @author DavidVelazquez
  */
+@SuppressWarnings("serial")
 public class Mensajes implements Serializable {
 
+    private static final long serialVersionUID = 8799656478674716638L;
     private String palabra;
     private String tema;
     private String pista;
@@ -24,6 +26,7 @@ public class Mensajes implements Serializable {
     private int score;
 
     public Mensajes() {
+        super();
     }
 
     public Mensajes(String palabra, String tema, String pista, int tipoMensaje, String mensaje, String ipHamachi, String username, String ipServer, int score) {
