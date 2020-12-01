@@ -33,6 +33,7 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
     Connection con;
 
     public static int counterUsers = 0;
+    ArrayList<Mensajes> usuariosRegistro = new ArrayList<Mensajes>();
 
     ArrayList<Object> mapeoPalabras = new ArrayList<Object>();
     ArrayList<Object> mapeoTema = new ArrayList<Object>();
@@ -304,9 +305,26 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
         Mensajes obj = (Mensajes) arg;
 
         if (obj.getTipoMensaje() == 1) {
-            this.jTAHistory.append(((Mensajes) arg).getMensaje());
+            this.jTAHistory.append("\n" + ((Mensajes) arg).getMensaje());
             counterUsers++;
             System.out.println("Numero de usuarios conectados: " + counterUsers);
+            this.jTAHistory.append("\nNumero de usuarios conectados: " + counterUsers);
+
+            for (int i = 0; i < counterUsers; i++) {
+                if (!usuariosRegistro.get(i).getIpHamachi().equals(obj.getIpHamachi())) {
+                    usuariosRegistro.add(obj);
+                }
+            }
+
+            obj.setTipoMensaje(0);
+            obj.setMensaje("El server dice que esperes");
+
+            for (int i = 0; i < counterUsers; i++) {
+                Cliente c = new Cliente(usuariosRegistro.get(i).getIpHamachi(), 5000, obj);
+                Thread t = new Thread(c);
+                t.start();
+            }
+
         }
 
     }

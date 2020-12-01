@@ -41,14 +41,14 @@ public class Servidor extends Observable implements Runnable {
                 //Espero a que un cliente se conecte
                 sc = servidor.accept();
 
-                System.out.println("Cliente conectado");
+                System.out.println("Servidor conectado");
                 inObjeto = new ObjectInputStream(sc.getInputStream());
 
                 //Leo el mensaje que me envia
                 msj = (Mensajes) inObjeto.readObject();
                 casosMensaje = (int) msj.getTipoMensaje();
 
-                if (casosMensaje == 1) {
+                if (casosMensaje == 0) {
                     String mensaje = msj.getMensaje();
                     System.out.println(mensaje);
 
@@ -61,7 +61,7 @@ public class Servidor extends Observable implements Runnable {
                 //Cierro el socket
                 sc.close();
                 inObjeto.close();
-                System.out.println("Cliente desconectado");
+                System.out.println("servidor desconectado");
 
             }
 

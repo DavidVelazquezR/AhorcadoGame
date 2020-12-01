@@ -392,6 +392,11 @@ public class Partida extends javax.swing.JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         //por si se quiere cambiar algo en cliente por respuesta del server
+        Mensajes obj = (Mensajes) arg;
+
+        if (obj.getTipoMensaje() == 0) {
+            this.jLMessage.setText(obj.getMensaje());
+        }
     }
 
 }
