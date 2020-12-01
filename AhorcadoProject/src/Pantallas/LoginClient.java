@@ -21,7 +21,7 @@ import javax.swing.JOptionPane;
  */
 public class LoginClient extends javax.swing.JFrame {
 
-    Players playerClient = new Players();
+    Mensajes playerClient = new Mensajes();
     String ipHamachi = "";
     int xy, xx;
 
@@ -32,11 +32,11 @@ public class LoginClient extends javax.swing.JFrame {
         initComponents();
 
         this.setLocationRelativeTo(null);
-        
+
         //Restricciones
         RestrictedTextField Usuario = new RestrictedTextField(jTFUsername);
         Usuario.setLimit(10);
-        RestrictedTextField IP= new RestrictedTextField(jTFIpServer);
+        RestrictedTextField IP = new RestrictedTextField(jTFIpServer);
         IP.setLimit(15);
     }
 
@@ -175,13 +175,12 @@ public class LoginClient extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void AccesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AccesActionPerformed
-        //Aqui cambie la restriccion         
-        if ((jTFUsername.getText().length()>4) && !(jTFUsername.getText().length()<11)) {
+        //Aqui cambie la restriccion
+        if ((jTFUsername.getText().length() > 4) && !(jTFUsername.getText().length() < 11)) {
             Mensaje.error(this, "Usuario debe tener de 5 a 10 caracteres");
-        } else if(jTFIpServer.getText().length()>16 && jTFIpServer.getText().length()<11){
+        } else if (jTFIpServer.getText().length() > 16 && jTFIpServer.getText().length() < 11) {
             Mensaje.error(this, "IP incorrecta");
-        }
-        else {
+        } else {
             this.dispose();
 
             playerClient.setIpHamachi(ipHamachi);

@@ -21,13 +21,13 @@ import javax.swing.Timer;
  */
 public class Partida extends javax.swing.JFrame implements Observer {
 
-    Players playerClient = new Players();
+    Mensajes playerClient = new Mensajes();
     int xy, xx;
 
     /**
      * Creates new form Partida
      */
-    public Partida(Players p) {
+    public Partida(Mensajes p) {
         initComponents();
         this.setLocationRelativeTo(null);
 
@@ -308,13 +308,14 @@ public class Partida extends javax.swing.JFrame implements Observer {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
 
-        /*
         String mensaje = "Soy " + playerClient.getUsername()
                 + " y mi ip es: " + playerClient.getIpHamachi();
-        Cliente c = new Cliente(playerClient.getIpServer(), 5000, mensaje);
+
+        playerClient.setMensaje(mensaje);
+        Cliente c = new Cliente(playerClient.getIpServer(), 5000, playerClient);
         Thread t = new Thread(c);
         t.start();
-         */
+
         //Iniciar temporizador
         tiem.start();
     }//GEN-LAST:event_formWindowOpened

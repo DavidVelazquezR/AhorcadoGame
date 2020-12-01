@@ -3,6 +3,7 @@ package Interfaz;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,8 +13,9 @@ public class Cliente implements Runnable {
     private String host;
     private int puerto;
     private String mensaje;
+    private Mensajes objetoMensaje;
 
-    public Cliente(String host, int puerto, String mensaje) {
+    public Cliente(String host, int puerto, Mensajes objetoMensaje) {
         this.host = host;
         this.puerto = puerto;
         this.mensaje = mensaje;
@@ -24,16 +26,18 @@ public class Cliente implements Runnable {
         //Host del servidor
         //Puerto del servidor
         DataOutputStream out;
+        ObjectOutputStream outObjeto;
 
         try {
             //Creo el socket para conectarme con el cliente
             Socket sc = new Socket(host, puerto);
 
-            out = new DataOutputStream(sc.getOutputStream());
+            outObjeto = new ObjectOutputStream(sc.getOutputStream());
 
             //Envio un mensaje al cliente
-            out.writeUTF(mensaje);
+            outObjeto.writeObject(objetoMensaje);
 
+            System.out.println("Se envio el mensaje: " + objetoMensaje.getMensaje());
             sc.close();
 
         } catch (IOException ex) {

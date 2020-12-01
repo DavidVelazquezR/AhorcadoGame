@@ -30,6 +30,9 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
     String ipHamachi = "";
     int xy, xx;
     Connection con;
+
+    public static int counterUsers = 0;
+
     ArrayList<Object> mapeoPalabras = new ArrayList<Object>();
     ArrayList<Object> mapeoTema = new ArrayList<Object>();
     ArrayList<Object> mapeoPista = new ArrayList<Object>();
@@ -194,36 +197,32 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
 
         jTFIPServer.setEditable(false);
 
-        //Guardar la bd en arraylist para mandarlos por sockets a los clientes
-        //palabrasAhorcado contendra las 4 palabras para las 4 rondas
-        Querys q = new Querys();
-
-        try {
-            mapeoPalabras = q.Seleccion(con, "Contenido", "palabras", "");
-            mapeoTema = q.Seleccion(con, "Tema", "palabras", "");
-            mapeoPista = q.Seleccion(con, "Pista", "palabras", "");
-        } catch (Exception er) {
-            System.out.println("Error en la seleccion de palabras ..." + er);
-        }
-        int sizeP = mapeoPalabras.size();
-
-        for (int i = 0; i < 4; i++) {
-            numeroP.add((int) Math.floor(Math.random() * (sizeP + 1)));
-        }
-
-        for (int i = 0; i < numeroP.size(); i++) {
-            palabrasAhorcado.add(((String) mapeoPalabras.get((int) numeroP.get(i))).trim());
-            palabrasAhorcado.add(((String) mapeoPista.get((int) numeroP.get(i))).trim());
-            palabrasAhorcado.add(((String) mapeoTema.get((int) numeroP.get(i))).trim());
-        }
-
-        for (int i = 0; i < 12; i = i + 3) {
-            System.out.println("\n");
-            System.out.println(palabrasAhorcado.get(i));
-            System.out.println(palabrasAhorcado.get(i + 1));
-            System.out.println(palabrasAhorcado.get(i + 2));
-        }
-
+        /**
+         * //Guardar la bd en arraylist para mandarlos por sockets a los
+         * clientes //palabrasAhorcado contendra las 4 palabras para las 4
+         * rondas Querys q = new Querys();
+         *
+         * try { mapeoPalabras = q.Seleccion(con, "Contenido", "palabras", "");
+         * mapeoTema = q.Seleccion(con, "Tema", "palabras", ""); mapeoPista =
+         * q.Seleccion(con, "Pista", "palabras", ""); } catch (Exception er) {
+         * System.out.println("Error en la seleccion de palabras ..." + er); }
+         * int sizeP = mapeoPalabras.size();
+         *
+         * for (int i = 0; i < 4; i++) { numeroP.add((int)
+         * Math.floor(Math.random() * (sizeP + 1))); }
+         *
+         * for (int i = 0; i < numeroP.size(); i++) {
+         * palabrasAhorcado.add(((String) mapeoPalabras.get((int)
+         * numeroP.get(i))).trim()); palabrasAhorcado.add(((String)
+         * mapeoPista.get((int) numeroP.get(i))).trim());
+         * palabrasAhorcado.add(((String) mapeoTema.get((int)
+         * numeroP.get(i))).trim()); }
+         *
+         * for (int i = 0; i < 12; i = i + 3) { System.out.println("\n");
+         * System.out.println(palabrasAhorcado.get(i));
+         * System.out.println(palabrasAhorcado.get(i + 1));
+         * System.out.println(palabrasAhorcado.get(i + 2)); }
+         */
     }//GEN-LAST:event_formWindowOpened
 
     private void jPanel5MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseDragged

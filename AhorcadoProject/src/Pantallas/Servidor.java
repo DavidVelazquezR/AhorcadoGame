@@ -1,8 +1,11 @@
 package Pantallas;
 
+import cjb.ci.Mensaje;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Observable;
@@ -23,6 +26,9 @@ public class Servidor extends Observable implements Runnable {
         ServerSocket servidor = null;
         Socket sc = null;
         DataInputStream in;
+        ObjectOutputStream outObjeto;
+        ObjectInputStream inObjeto;
+        Mensajes msj = null;
 
         try {
             //Creamos el socket del servidor
@@ -36,15 +42,25 @@ public class Servidor extends Observable implements Runnable {
                 sc = servidor.accept();
 
                 System.out.println("Cliente conectado");
-                in = new DataInputStream(sc.getInputStream());
+                inObjeto = new ObjectInputStream(sc.getInputStream());
 
                 //Leo el mensaje que me envia
-                String mensaje = in.readUTF();
+                try {
+                    msj = (Mensajes) inObjeto.readObject();
+                } catch (Exception e) {
+                    System.out.println("Error al recibir mensaje..." + e);
+                }
 
-                System.out.println(mensaje);
+                int casosMensaje = msj.getTipoMensaje();
+
+                if (casosMensaje == 1) {
+                    String mensaje = (String) msj.getMensaje();
+                    System.out.println(mensaje);
+
+                }
 
                 this.setChanged();
-                this.notifyObservers(mensaje);
+                this.notifyObservers(casosMensaje);
                 this.clearChanged();
 
                 //Cierro el socket
