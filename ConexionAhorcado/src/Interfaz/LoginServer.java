@@ -286,7 +286,7 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
             if (usuariosRegistro.isEmpty()) {
                 usuariosRegistro.add(obj);
             } else {
-                for (int i = 0; i < counterUsers; i++) {
+                for (int i = 0; i < usuariosRegistro.size(); i++) {
                     if (!usuariosRegistro.get(i).getIpHamachi().equals(obj.getIpHamachi())) {
                         usuariosRegistro.add(obj);
                     }
@@ -294,21 +294,23 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
             }
 
             obj.setTipoMensaje(0);
-            obj.setMensaje("El server dice que esperes");
+            obj.setMensaje("El server dice que esperes: " + usuariosRegistro.get(counterUsers - 1).getUsername());
 
-            for (int i = 0; i < counterUsers; i++) {
-                Cliente c = new Cliente(usuariosRegistro.get(i).getIpHamachi(), 5000, obj);
-                Thread t = new Thread(c);
-                t.start();
-            }
+            Cliente c = new Cliente(usuariosRegistro.get(counterUsers - 1).getIpHamachi(), 5000, obj);
+            Thread t = new Thread(c);
+            t.start();
 
         }
 
         if (counterUsers == 2) {
             System.out.println("\nQue comience el juego XD");
 
+            for (int i = 0; i < 2; i++) {
+                System.out.println("usuario: " + usuariosRegistro.get(i).getUsername());
+            }
+
             Querys q = new Querys();
-            int sizeP = mapeoPalabras.size();
+
             ArrayList<Object> numeroP = new ArrayList<Object>();
 
             try {
@@ -320,39 +322,37 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
                 System.out.println("Error en la consulta de BD..." + e);
             }
 
+            int sizeP = mapeoPalabras.size();
             for (int i = 0; i < 4; i++) {
                 numeroP.add((int) Math.floor(Math.random() * (sizeP + 1)));
 
             }
+            for (int i = 0; i < 4; i++) {
+                System.out.println("numero r: " + numeroP.get(i));
+            }
+
             Mensajes palabras = (Mensajes) arg;
             int aux = 0;
 
-            for (int i = 0; i < counterUsers; i++) {
+            System.out.println("aux: " + aux);
+            Thread[] t1 = new Thread[4];
+            for (int i = 0; i < 2; i++) {
 
                 palabras.setIpHamachi(usuariosRegistro.get(i).getIpHamachi());
                 palabras.setPalabra((String) mapeoPalabras.get((int) numeroP.get(aux)));
+                System.out.println("Palabra " + aux + ": " + (String) mapeoPalabras.get((int) numeroP.get(aux)));
                 palabras.setPista((String) mapeoPista.get((int) numeroP.get(aux)));
                 palabras.setTema((String) mapeoTema.get((int) numeroP.get(aux)));
-                palabras.setTipoMensaje(2);
+                palabras.setTipoMensaje(i + 2);
                 palabras.setMensaje("EL juego ya puede comenzar");
                 aux++;
 
                 Cliente c1 = new Cliente(usuariosRegistro.get(i).getIpHamachi(), 5000, palabras);
-                Thread t1 = new Thread(c1);
-                t1.start();
 
-                palabras.setIpHamachi(usuariosRegistro.get(i).getIpHamachi());
-                palabras.setPalabra((String) mapeoPalabras.get((int) numeroP.get(aux)));
-                palabras.setPista((String) mapeoPista.get((int) numeroP.get(aux)));
-                palabras.setTema((String) mapeoTema.get((int) numeroP.get(aux)));
-                palabras.setTipoMensaje(2);
-                palabras.setMensaje("EL juego ya puede comenzar");
-                aux++;
-
-                Cliente c2 = new Cliente(usuariosRegistro.get(i).getIpHamachi(), 5000, palabras);
-                Thread t2 = new Thread(c2);
-                t2.start();
+                t1[i] = new Thread(c1);
+                t1[i].start();
             }
+            System.out.println("aux:" + aux);
         }
 
     }
