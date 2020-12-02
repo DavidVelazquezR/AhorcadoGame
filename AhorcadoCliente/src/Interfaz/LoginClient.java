@@ -193,7 +193,7 @@ public class LoginClient extends javax.swing.JFrame {
             playerClient.setMensaje(mensaje);
             playerClient.setTipoMensaje(1);
 
-            Cliente c = new Cliente(playerClient.getIpServer(), 5000, playerClient);
+            EnviarMensaje c = new EnviarMensaje(playerClient.getIpServer(), 5000, playerClient);
             Thread t = new Thread(c);
             t.start();
             boolean wait = true;

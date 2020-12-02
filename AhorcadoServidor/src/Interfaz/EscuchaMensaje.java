@@ -13,11 +13,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import Interfaz.Mensajes;
 
-public class Servidor extends Observable implements Runnable {
+public class EscuchaMensaje extends Observable implements Runnable {
 
     private int puerto;
 
-    public Servidor(int puerto) {
+    public EscuchaMensaje(int puerto) {
         this.puerto = puerto;
     }
 
@@ -41,20 +41,17 @@ public class Servidor extends Observable implements Runnable {
                 //Espero a que un cliente se conecte
                 sc = servidor.accept();
 
-                System.out.println("Servidor conectado");
+                System.out.println("Cliente conectado");
                 inObjeto = new ObjectInputStream(sc.getInputStream());
 
                 //Leo el mensaje que me envia
                 msj = (Mensajes) inObjeto.readObject();
                 casosMensaje = (int) msj.getTipoMensaje();
 
-                if (casosMensaje == 0) {
+                if (casosMensaje == 1) {
                     String mensaje = msj.getMensaje();
                     System.out.println(mensaje);
 
-                } else if (casosMensaje == 2) {
-                    String mensaje = msj.getMensaje();
-                    System.out.println(mensaje);
                 }
 
                 this.setChanged();
@@ -64,14 +61,14 @@ public class Servidor extends Observable implements Runnable {
                 //Cierro el socket
                 sc.close();
                 inObjeto.close();
-                System.out.println("servidor desconectado");
+                System.out.println("Cliente desconectado");
 
             }
 
         } catch (IOException ex) {
             System.out.println("eror en el hilo del socket " + ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EscuchaMensaje.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }

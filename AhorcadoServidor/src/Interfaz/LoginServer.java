@@ -50,7 +50,7 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
         initComponents();
         this.setLocationRelativeTo(null);
 
-        Servidor s = new Servidor(5000);
+        EscuchaMensaje s = new EscuchaMensaje(5000);
         s.addObserver(this);
         Thread t = new Thread(s);
         t.start();
@@ -332,7 +332,7 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
             obj.setTema(mensajesPalabras.get(counterUsers - 1).getTema());
             obj.setPista(mensajesPalabras.get(counterUsers - 1).getPista());
 
-            Cliente c = new Cliente(usuariosRegistro.get(counterUsers - 1).getIpHamachi(), 5000, obj);
+            EnviarMensaje c = new EnviarMensaje(usuariosRegistro.get(counterUsers - 1).getIpHamachi(), 5000, obj);
             Thread t = new Thread(c);
             t.start();
 

@@ -9,13 +9,13 @@ import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Cliente  extends Observable implements Runnable {
+public class EnviarMensaje  extends Observable implements Runnable {
 
     private String host;
     private int puerto;
     private Mensajes objetoMensaje;
 
-    public Cliente(String host, int puerto, Mensajes objetoMensaje) {
+    public EnviarMensaje(String host, int puerto, Mensajes objetoMensaje) {
         this.host = host;
         this.puerto = puerto;
         this.objetoMensaje = objetoMensaje;
@@ -42,7 +42,7 @@ public class Cliente  extends Observable implements Runnable {
             outObjeto.close();
 
         } catch (IOException ex) {
-            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EnviarMensaje.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }

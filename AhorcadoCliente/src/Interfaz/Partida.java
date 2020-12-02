@@ -41,7 +41,7 @@ public class Partida extends javax.swing.JFrame implements Observer {
         tiem = new Timer(10, acciones);
         playerClient = p;
 
-        Servidor s = new Servidor(5000);
+        EscuchaMensaje s = new EscuchaMensaje(5000);
         s.addObserver(this);
         Thread t = new Thread(s);
         t.start();
