@@ -34,6 +34,7 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
 
     public static int counterUsers = 0;
     ArrayList<Mensajes> usuariosRegistro = new ArrayList<Mensajes>();
+    ArrayList<Mensajes> mensajesPalabras = new ArrayList<Mensajes>();
 
     ArrayList<Object> mapeoPalabras = new ArrayList<Object>();
     ArrayList<Object> mapeoTema = new ArrayList<Object>();
@@ -53,7 +54,6 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
         s.addObserver(this);
         Thread t = new Thread(s);
         t.start();
-
     }
 
     /**
@@ -198,6 +198,39 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
 
         jTFIPServer.setEditable(false);
 
+        //Preparamos las consultas a BD de las palabras
+        Querys q = new Querys();
+
+        ArrayList<Object> numeroP = new ArrayList<Object>();
+
+        try {
+            mapeoPalabras = q.Seleccion(con, "Contenido", "palabras", "");
+            mapeoPista = q.Seleccion(con, "Pista", "palabras", "");
+            mapeoTema = q.Seleccion(con, "Tema", "palabras", "");
+        } catch (Exception es) {
+            System.out.println("Error en la consulta de BD..." + es);
+        }
+
+        int sizeP = mapeoPalabras.size();
+        for (int i = 0; i < 4; i++) {
+            numeroP.add((int) Math.floor(Math.random() * (sizeP + 1)));
+
+        }
+
+        int auxRandom = 0;
+
+        for (int i = 0; i < 4; i++) {
+            Mensajes palabras = new Mensajes();
+            palabras.setPalabra((String) mapeoPalabras.get((int) numeroP.get(auxRandom)));
+            System.out.println("Palabra " + aux + ": " + (String) mapeoPalabras.get((int) numeroP.get(auxRandom)));
+            palabras.setPista((String) mapeoPista.get((int) numeroP.get(auxRandom)));
+            palabras.setTema((String) mapeoTema.get((int) numeroP.get(auxRandom)));
+            palabras.setTipoMensaje(3);
+
+            mensajesPalabras.add(palabras);
+
+            auxRandom++;
+        }
     }//GEN-LAST:event_formWindowOpened
 
     private void jPanel5MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseDragged
@@ -294,65 +327,15 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
             }
 
             obj.setTipoMensaje(0);
-            obj.setMensaje("El server dice que esperes: " + usuariosRegistro.get(counterUsers - 1).getUsername());
+            obj.setMensaje("El server dice que esperes: " + usuariosRegistro.get(counterUsers - 1).getUsername() + "\n");
+            obj.setPalabra(mensajesPalabras.get(counterUsers - 1).getPalabra());
+            obj.setTema(mensajesPalabras.get(counterUsers - 1).getTema());
+            obj.setPista(mensajesPalabras.get(counterUsers - 1).getPista());
 
             Cliente c = new Cliente(usuariosRegistro.get(counterUsers - 1).getIpHamachi(), 5000, obj);
             Thread t = new Thread(c);
             t.start();
 
-        }
-
-        if (counterUsers == 2) {
-            System.out.println("\nQue comience el juego XD");
-
-            for (int i = 0; i < 2; i++) {
-                System.out.println("usuario: " + usuariosRegistro.get(i).getUsername());
-            }
-
-            Querys q = new Querys();
-
-            ArrayList<Object> numeroP = new ArrayList<Object>();
-
-            try {
-                mapeoPalabras = q.Seleccion(con, "Contenido", "palabras", "");
-                mapeoPista = q.Seleccion(con, "Pista", "palabras", "");
-                mapeoTema = q.Seleccion(con, "Tema", "palabras", "");
-
-            } catch (Exception e) {
-                System.out.println("Error en la consulta de BD..." + e);
-            }
-
-            int sizeP = mapeoPalabras.size();
-            for (int i = 0; i < 4; i++) {
-                numeroP.add((int) Math.floor(Math.random() * (sizeP + 1)));
-
-            }
-            for (int i = 0; i < 4; i++) {
-                System.out.println("numero r: " + numeroP.get(i));
-            }
-
-            Mensajes palabras = (Mensajes) arg;
-            int aux = 0;
-
-            System.out.println("aux: " + aux);
-            Thread[] t1 = new Thread[4];
-            for (int i = 0; i < 2; i++) {
-
-                palabras.setIpHamachi(usuariosRegistro.get(i).getIpHamachi());
-                palabras.setPalabra((String) mapeoPalabras.get((int) numeroP.get(aux)));
-                System.out.println("Palabra " + aux + ": " + (String) mapeoPalabras.get((int) numeroP.get(aux)));
-                palabras.setPista((String) mapeoPista.get((int) numeroP.get(aux)));
-                palabras.setTema((String) mapeoTema.get((int) numeroP.get(aux)));
-                palabras.setTipoMensaje(i + 2);
-                palabras.setMensaje("EL juego ya puede comenzar");
-                aux++;
-
-                Cliente c1 = new Cliente(usuariosRegistro.get(i).getIpHamachi(), 5000, palabras);
-
-                t1[i] = new Thread(c1);
-                t1[i].start();
-            }
-            System.out.println("aux:" + aux);
         }
 
     }

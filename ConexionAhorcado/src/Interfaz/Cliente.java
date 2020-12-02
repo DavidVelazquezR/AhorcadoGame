@@ -24,7 +24,6 @@ public class Cliente implements Runnable {
     public void run() {
         //Host del servidor
         //Puerto del servidor
-        DataOutputStream out;
         ObjectOutputStream outObjeto;
 
         try {
@@ -37,6 +36,7 @@ public class Cliente implements Runnable {
             outObjeto.writeObject(objetoMensaje);
 
             System.out.println("Se envio el mensaje: " + objetoMensaje.getMensaje());
+
             sc.close();
             outObjeto.close();
 

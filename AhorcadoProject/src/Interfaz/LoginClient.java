@@ -192,12 +192,13 @@ public class LoginClient extends javax.swing.JFrame {
             String mensaje = "Soy " + playerClient.getUsername() + " y mi ip es: " + playerClient.getIpHamachi();
             playerClient.setMensaje(mensaje);
             playerClient.setTipoMensaje(1);
+
             Cliente c = new Cliente(playerClient.getIpServer(), 5000, playerClient);
             Thread t = new Thread(c);
             t.start();
             boolean wait = true;
             jlespera.setVisible(true);
-            
+
             Partida p = new Partida(playerClient);
             this.dispose();
             p.setVisible(true);
