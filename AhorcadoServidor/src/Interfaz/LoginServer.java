@@ -27,21 +27,21 @@ import javax.swing.JOptionPane;
  * @author uriel
  */
 public class LoginServer extends javax.swing.JFrame implements Observer {
-    
+
     String ipHamachi = "";
     int xy, xx;
     Connection con;
     private EscuchaMensaje s;
-    
+
     public static int counterUsers = 0;
     ArrayList<Mensajes> usuariosRegistro = new ArrayList<Mensajes>();
     ArrayList<Mensajes> mensajesPalabras = new ArrayList<Mensajes>();
-    
+
     ArrayList<Object> mapeoPalabras = new ArrayList<Object>();
     ArrayList<Object> mapeoTema = new ArrayList<Object>();
     ArrayList<Object> mapeoPista = new ArrayList<Object>();
     ArrayList<Object> palabrasAhorcado = new ArrayList<Object>();
-    
+
     int ban = 4;
 
     /**
@@ -50,7 +50,7 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
     public LoginServer() {
         initComponents();
         this.setLocationRelativeTo(null);
-        
+
         s = new EscuchaMensaje(5000);
         s.addObserver(this);
         Thread t = new Thread(s);
@@ -173,7 +173,7 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         con = ManipulaDBC.conectaDB();
-        
+
         String aux = "";
         Enumeration e = null;
         try {
@@ -191,19 +191,19 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
                 if (aux.equals("25")) {
                     ipHamachi = i.getHostAddress();
                 }
-                
+
             }
         }
         System.out.println("Mi ip de hamachi es: " + ipHamachi);
         jTFIPServer.setText(ipHamachi);
-        
+
         jTFIPServer.setEditable(false);
 
         //Preparamos las consultas a BD de las palabras
         Querys q = new Querys();
-        
+
         ArrayList<Object> numeroP = new ArrayList<Object>();
-        
+
         try {
             mapeoPalabras = q.Seleccion(con, "Contenido", "palabras", "");
             mapeoPista = q.Seleccion(con, "Pista", "palabras", "");
@@ -211,15 +211,15 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
         } catch (Exception es) {
             System.out.println("Error en la consulta de BD..." + es);
         }
-        
+
         int sizeP = mapeoPalabras.size();
         for (int i = 0; i < 4; i++) {
             numeroP.add((int) Math.floor(Math.random() * (sizeP + 1)));
-            
+
         }
-        
+
         int auxRandom = 0;
-        
+
         for (int i = 0; i < 4; i++) {
             Mensajes palabras = new Mensajes();
             palabras.setPalabra((String) mapeoPalabras.get((int) numeroP.get(auxRandom)));
@@ -228,9 +228,9 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
             palabras.setTema((String) mapeoTema.get((int) numeroP.get(auxRandom)));
             palabras.setMensaje("ya puedes Jugar");
             palabras.setTipoMensaje(3);
-            
+
             mensajesPalabras.add(palabras);
-            
+
             auxRandom++;
         }
     }//GEN-LAST:event_formWindowOpened
@@ -249,7 +249,7 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         ManipulaDBC.desconectaDB(con);
     }//GEN-LAST:event_formWindowClosed
-    
+
     public void agrega(ArrayList<Object> array, int n, JComboBox jc) {
         int aux = 0;
         for (int i = 0; i < n; i++) {
@@ -311,14 +311,14 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         Mensajes obj = (Mensajes) arg;
-        
+
         if (obj.getTipoMensaje() == 1) {
-            
+
             this.jTAHistory.append("\n" + ((Mensajes) arg).getMensaje());
             counterUsers++;
             System.out.println("Numero de usuarios conectados: " + counterUsers);
             this.jTAHistory.append("\nNumero de usuarios conectados: " + counterUsers);
-            
+
             if (usuariosRegistro.isEmpty()) {
                 usuariosRegistro.add(obj);
             } else {
@@ -328,9 +328,10 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
                     }
                 }
             }
-            
+
             obj.setTipoMensaje(0);
             obj.setMensaje("El server dice que esperes: " + usuariosRegistro.get(counterUsers - 1).getUsername() + "\n");
+            obj.setPalabrasFull(mensajesPalabras);
 
 //            obj.setPalabra(mensajesPalabras.get(counterUsers - 1).getPalabra());
 //            obj.setTema(mensajesPalabras.get(counterUsers - 1).getTema());
@@ -339,13 +340,7 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
             Thread t = new Thread(c);
             t.start();
         }
-        if (counterUsers == 2) {
-            for (int i = 0; i < 2; i++) {
-                s.enviarATodos(usuariosRegistro, mensajesPalabras.get(i));
-            }
-            
-        }
-        
+
     }
-    
+
 }

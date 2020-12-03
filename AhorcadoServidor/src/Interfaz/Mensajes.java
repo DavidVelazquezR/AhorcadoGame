@@ -6,6 +6,7 @@
 package Interfaz;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  *
@@ -15,18 +16,19 @@ import java.io.Serializable;
 public class Mensajes implements Serializable {
 
     private static final long serialVersionUID = 8799656478674716638L;
-    String palabra = null;
-    String tema = null;
-    String pista = null;
-    int tipoMensaje = 0;
-    String mensaje = null;
-    String ipHamachi = null;
-    String username = null;
-    String ipServer = null;
-    int score = 0;
+    private String palabra;
+    private String tema;
+    private String pista;
+    private int tipoMensaje;
+    private String mensaje;
+    private String ipHamachi;
+    private String username;
+    private String ipServer;
+    private int score;
+    private ArrayList<Mensajes> palabrasFull = null;
 
     public Mensajes() {
-
+        super();
     }
 
     public Mensajes(String palabra, String tema, String pista, int tipoMensaje, String mensaje, String ipHamachi, String username, String ipServer, int score) {
@@ -165,6 +167,20 @@ public class Mensajes implements Serializable {
      */
     public void setTipoMensaje(int tipoMensaje) {
         this.tipoMensaje = tipoMensaje;
+    }
+
+    /**
+     * @return the palabrasFull
+     */
+    public ArrayList<Mensajes> getPalabrasFull() {
+        return palabrasFull;
+    }
+
+    /**
+     * @param palabrasFull the palabrasFull to set
+     */
+    public void setPalabrasFull(ArrayList<Mensajes> palabrasFull) {
+        this.palabrasFull = palabrasFull;
     }
 
 }

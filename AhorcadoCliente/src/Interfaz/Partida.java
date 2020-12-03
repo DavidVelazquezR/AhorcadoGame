@@ -24,7 +24,8 @@ public class Partida extends javax.swing.JFrame implements Observer {
 
     Mensajes playerClient = new Mensajes();
     int xy, xx;
-    ArrayList<Mensajes> palabras= new ArrayList<Mensajes>();
+    ArrayList<Mensajes> palabras = new ArrayList<Mensajes>();
+
     /**
      * Creates new form Partida
      */
@@ -395,16 +396,22 @@ public class Partida extends javax.swing.JFrame implements Observer {
         //por si se quiere cambiar algo en cliente por respuesta del server
         Mensajes obj = (Mensajes) arg;
 
-        if (obj.getTipoMensaje() == 3) {
+        if (obj.getTipoMensaje() == 0) {
             this.jLMessage.setText(obj.getMensaje());
             System.out.println(obj.getPalabra());
+
+            System.out.println("Palabra 1: " + obj.getPalabrasFull().get(0).getPalabra());
+            System.out.println("Palabra 2: " + obj.getPalabrasFull().get(1).getPalabra());
+            System.out.println("Palabra 3: " + obj.getPalabrasFull().get(2).getPalabra());
+            System.out.println("Palabra 4: " + obj.getPalabrasFull().get(3).getPalabra());
+
         } else if (obj.getTipoMensaje() == 2) {
             this.jLMessage.setText(obj.getMensaje());
             System.out.println("Palabra: " + obj.getPalabra());
         } else if (obj.getTipoMensaje() == 3) {
             this.jLMessage.setText(obj.getMensaje());
             System.out.println("Palabra: " + obj.getPalabra());
-            palabras.add((Mensajes)obj);
+            palabras.add((Mensajes) obj);
         }
     }
 
