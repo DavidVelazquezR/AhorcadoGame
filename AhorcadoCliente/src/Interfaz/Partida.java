@@ -408,10 +408,10 @@ public class Partida extends javax.swing.JFrame implements Observer {
         } else if (obj.getTipoMensaje() == 2) {
             this.jLMessage.setText(obj.getMensaje());
             System.out.println("Palabra: " + obj.getPalabra());
+
         } else if (obj.getTipoMensaje() == 3) {
             this.jLMessage.setText(obj.getMensaje());
             System.out.println("Palabra: " + obj.getPalabra());
-            palabras.add((Mensajes) obj);
         }
     }
 

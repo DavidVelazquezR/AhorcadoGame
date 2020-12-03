@@ -313,30 +313,25 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
         Mensajes obj = (Mensajes) arg;
 
         if (obj.getTipoMensaje() == 1) {
-
+            Mensajes objF1 = obj;
             this.jTAHistory.append("\n" + ((Mensajes) arg).getMensaje());
             counterUsers++;
             System.out.println("Numero de usuarios conectados: " + counterUsers);
             this.jTAHistory.append("\nNumero de usuarios conectados: " + counterUsers);
 
             if (usuariosRegistro.isEmpty()) {
-                usuariosRegistro.add(obj);
+                usuariosRegistro.add(objF1);
+            } else if (usuariosRegistro.size() == 1) {
+                usuariosRegistro.add(objF1);
             } else {
-                for (int i = 0; i < usuariosRegistro.size(); i++) {
-                    if (!usuariosRegistro.get(i).getIpHamachi().equals(obj.getIpHamachi())) {
-                        usuariosRegistro.add(obj);
-                    }
-                }
+                System.out.println("Ya no aceptamos usuarios ue >:v\n a chigar a su madre");
             }
 
-            obj.setTipoMensaje(0);
-            obj.setMensaje("El server dice que esperes: " + usuariosRegistro.get(counterUsers - 1).getUsername() + "\n");
-            obj.setPalabrasFull(mensajesPalabras);
+            objF1.setTipoMensaje(0);
+            objF1.setMensaje("El server dice que esperes: " + usuariosRegistro.get(counterUsers - 1).getUsername() + "\n");
+            objF1.setPalabrasFull(mensajesPalabras);
 
-//            obj.setPalabra(mensajesPalabras.get(counterUsers - 1).getPalabra());
-//            obj.setTema(mensajesPalabras.get(counterUsers - 1).getTema());
-//            obj.setPista(mensajesPalabras.get(counterUsers - 1).getPista());
-            EnviarMensaje c = new EnviarMensaje(usuariosRegistro.get(counterUsers - 1).getIpHamachi(), 5000, obj);
+            EnviarMensaje c = new EnviarMensaje(usuariosRegistro.get(counterUsers - 1).getIpHamachi(), 5000, objF1);
             Thread t = new Thread(c);
             t.start();
         }
