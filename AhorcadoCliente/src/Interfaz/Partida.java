@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Observer;
 import java.util.Observable;
 import javax.swing.JOptionPane;
@@ -23,7 +24,7 @@ public class Partida extends javax.swing.JFrame implements Observer {
 
     Mensajes playerClient = new Mensajes();
     int xy, xx;
-
+    ArrayList<Mensajes> palabras= new ArrayList<Mensajes>();
     /**
      * Creates new form Partida
      */
@@ -394,7 +395,7 @@ public class Partida extends javax.swing.JFrame implements Observer {
         //por si se quiere cambiar algo en cliente por respuesta del server
         Mensajes obj = (Mensajes) arg;
 
-        if (obj.getTipoMensaje() == 0) {
+        if (obj.getTipoMensaje() == 3) {
             this.jLMessage.setText(obj.getMensaje());
             System.out.println(obj.getPalabra());
         } else if (obj.getTipoMensaje() == 2) {
@@ -403,6 +404,7 @@ public class Partida extends javax.swing.JFrame implements Observer {
         } else if (obj.getTipoMensaje() == 3) {
             this.jLMessage.setText(obj.getMensaje());
             System.out.println("Palabra: " + obj.getPalabra());
+            palabras.add((Mensajes)obj);
         }
     }
 

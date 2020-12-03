@@ -12,10 +12,12 @@ import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import Interfaz.Mensajes;
+import java.util.ArrayList;
 
 public class EscuchaMensaje extends Observable implements Runnable {
 
     private int puerto;
+    private ArrayList<Socket> clientes;
 
     public EscuchaMensaje(int puerto) {
         this.puerto = puerto;
@@ -69,6 +71,23 @@ public class EscuchaMensaje extends Observable implements Runnable {
             System.out.println("eror en el hilo del socket " + ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(EscuchaMensaje.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    
+    public void enviarATodos(ArrayList<Mensajes> usuarios, Mensajes palabras) {
+
+        for (Socket sock : clientes) {
+
+            try {
+                ObjectOutputStream outObjeto = new ObjectOutputStream(sock.getOutputStream());
+                for (int i = 0; i < usuarios.size(); i++) {
+                    outObjeto.writeObject(palabras);
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(EscuchaMensaje.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
 
     }
