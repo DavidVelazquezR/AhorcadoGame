@@ -319,13 +319,13 @@ public class Partida extends javax.swing.JFrame implements Observer {
     }//GEN-LAST:event_AccesActionPerformed
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-        this.dispose();
-        LoginClient l = new LoginClient();
-        l.setVisible(true);
-        //Parar el cronometro
+//        LoginClient l = new LoginClient();
+//        l.setVisible(true);
+//        //Parar el cronometro
         if (tiem.isRunning()) {
-            tiem.stop();
+           tiem.stop(); 
         }
+        this.dispose();
     }//GEN-LAST:event_jLabel3MouseClicked
 
     private void jPanel1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseDragged
@@ -399,8 +399,6 @@ public class Partida extends javax.swing.JFrame implements Observer {
 
         if (obj.getTipoMensaje() == 0) {///espera
             this.jLMessage.setText(obj.getMensaje());
-            System.out.println(obj.getPalabra());
-
             System.out.println("Palabra 1: " + obj.getPalabrasFull().get(0).getPalabra());
             System.out.println("Palabra 2: " + obj.getPalabrasFull().get(1).getPalabra());
             System.out.println("Palabra 3: " + obj.getPalabrasFull().get(2).getPalabra());
