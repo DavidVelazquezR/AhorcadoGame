@@ -278,9 +278,11 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
                 usuariosRegistro.add(objF1);
             } else {
                 System.out.println("Ya no aceptamos usuarios ue >:v\n a chigar a su madre");
-                objF1.setTipoMensaje(6);
-                objF1.setMensaje("Sala llena");
-                counterUsers--;
+                jTAHistory.append("\n Jugador rechazado");
+                EnviarMensaje objF11 = baneado(obj);
+                Thread yano = new Thread(objF11);
+                yano.start();
+                while(yano.isAlive()){}
             }
             if (counterUsers < 2) {
                 objF1.setTipoMensaje(0);
@@ -293,7 +295,6 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
 //                EnviarMensaje objF11 = empieza(3);
 //                Thread t2 = new Thread(objF11);
 //                t2.start();
-
 //                while(t2.isAlive()){}
                 EnviarMensaje objF12 = empieza(2);
                 Thread t3 = new Thread(objF12);
@@ -305,7 +306,11 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
                 t4.start();
 
                 this.jTAHistory.append("\nJuegos Iniciados ");
+                
+            }else if (counterUsers == 3) {
+                counterUsers--;
             }
+            
         } else if (obj.getTipoMensaje() == 3) {
             Mensajes obj_fin1 = obj;
             this.jTAHistory.append("\n" + obj.getMensaje());
@@ -341,7 +346,8 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
                     EnviarMensaje objFF2 = new EnviarMensaje(usuariosRegistro.get(1).getIpHamachi(), 5000, obj_fin1);
                     Thread t9 = new Thread(objFF2);
                     t9.start();
-
+                    while (t9.isAlive()) {
+                    }
                 } else if (usuariosRegistro.get(0).getScore() < usuariosRegistro.get(1).getScore()) {
 
                     obj_fin1.setMensaje("Ganaste " + usuariosRegistro.get(1).getUsername());
@@ -360,6 +366,8 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
                     EnviarMensaje objFF2 = new EnviarMensaje(usuariosRegistro.get(0).getIpHamachi(), 5000, obj_fin1);
                     Thread t9 = new Thread(objFF2);
                     t9.start();
+                    while (t9.isAlive()) {
+                    }
 
                 } else if (usuariosRegistro.get(0).getScore() == usuariosRegistro.get(1).getScore()) {
 
@@ -369,7 +377,6 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
                     EnviarMensaje objFF1 = new EnviarMensaje(usuariosRegistro.get(1).getIpHamachi(), 5000, obj_fin1);
                     Thread t8 = new Thread(objFF1);
                     t8.start();
-
                     while (t8.isAlive()) {
                     }
 
@@ -378,6 +385,8 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
                     EnviarMensaje objFF2 = new EnviarMensaje(usuariosRegistro.get(0).getIpHamachi(), 5000, obj_fin1);
                     Thread t9 = new Thread(objFF2);
                     t9.start();
+                    while (t9.isAlive()) {
+                    }
                 }
                 usuariosRegistro.clear();
                 comienza = -1;
@@ -388,7 +397,7 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
                 palabrasAhorcado.clear();
                 counterScore = 0;
                 counterUsers = 0;
-                jTAHistory.append("\n-------------------------------");
+                jTAHistory.append("\n--------------------------------------------------------------");
                 busca_palabras();
             }
 
@@ -438,6 +447,14 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
         a.setMensaje("Ya puedes empezar " + usuariosRegistro.get(counterUsers - i).getUsername() + " \n");
         a.setPalabrasFull(mensajesPalabras);
         EnviarMensaje c3 = new EnviarMensaje(usuariosRegistro.get(counterUsers - i).getIpHamachi(), 5000, a);
+        return c3;
+    }
+    private EnviarMensaje baneado(Mensajes ban) {
+        Mensajes a = new Mensajes();
+        a.setTipoMensaje(6);
+        a.setMensaje("Sala llena " + ban.getUsername() + " \n");
+        a.setPalabrasFull(mensajesPalabras);
+        EnviarMensaje c3 = new EnviarMensaje(ban.getIpHamachi(), 5000, a);
         return c3;
     }
 

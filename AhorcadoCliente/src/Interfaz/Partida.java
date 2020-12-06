@@ -489,6 +489,8 @@ public class Partida extends javax.swing.JFrame implements Observer {
             copy_ob=null;
             Thread t = new Thread(c);
             t.start();
+            while (t.isAlive()) {
+            }
         } else {
             copy_ob = obj;
             String palabra, tema, pista;
