@@ -24,6 +24,8 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
     public static int counterUsers = 0;
     public static int counterScore = 0;
     public static int[] ar_scores = {-1, -1};
+    
+    int comienza = -1;
 
     ArrayList<Mensajes> usuariosRegistro = new ArrayList<Mensajes>();
     ArrayList<Mensajes> mensajesPalabras = new ArrayList<Mensajes>();
@@ -339,26 +341,27 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
         } 
         else if (obj.getTipoMensaje() == 3) {
             Mensajes obj_fin1 = obj;
+            this.jTAHistory.append("\n"+obj.getMensaje());
             counterScore++;
             if (counterScore == 1) {
-                
                 for (int i = 0; i < usuariosRegistro.size(); i++) {
                     if (usuariosRegistro.get(i).getIpHamachi().equals(obj.getIpHamachi())) {
                         ar_scores[i] = obj.getScore();
+                        ///comienza = i;
                     }
                 }
             } else if (counterScore == 2) {
-                ar_scores[1] = obj.getScore();
-                if (ar_scores[1] > ar_scores[1]) {
+                ar_scores[comienza] = obj.getScore();
+                if (ar_scores[0] > ar_scores[1]) {
                     obj_fin1.setMensaje("Ganaste!! ");
                     obj_fin1.setTipoMensaje(4);
-                    EnviarMensaje objFF1  = new EnviarMensaje(usuariosRegistro.get(0).getIpHamachi(), 5000, obj_fin1);
+                    EnviarMensaje objFF1  = new EnviarMensaje(usuariosRegistro.get(1).getIpHamachi(), 5000, obj_fin1);
                     Thread t8 = new Thread(objFF1);
                     t8.start();
                     while (t8.isAlive()){}
                     obj_fin1.setMensaje("Perdiste u.u");
                     obj_fin1.setTipoMensaje(4);
-                    EnviarMensaje objFF2  = new EnviarMensaje(usuariosRegistro.get(1).getIpHamachi(), 5000, obj_fin1);
+                    EnviarMensaje objFF2  = new EnviarMensaje(usuariosRegistro.get(0).getIpHamachi(), 5000, obj_fin1);
                     Thread t9 = new Thread(objFF2);
                     t9.start();
                 } else if (ar_scores[0] < ar_scores[1]) {
@@ -376,7 +379,7 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
                 } else if(ar_scores[0] == ar_scores[1]){
                     obj_fin1.setMensaje("Empate");
                     obj_fin1.setTipoMensaje(4);
-                    EnviarMensaje objFF1  = new EnviarMensaje(usuariosRegistro.get(0).getIpHamachi(), 5000, obj_fin1);
+                    EnviarMensaje objFF1  = new EnviarMensaje(usuariosRegistro.get(1).getIpHamachi(), 5000, obj_fin1);
                     Thread t8 = new Thread(objFF1);
                     t8.start();
                     while (t8.isAlive()){}
