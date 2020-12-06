@@ -106,7 +106,7 @@ public class Partida extends javax.swing.JFrame implements Observer {
         jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel2.setText("Tema:");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 460, 260, 30));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 460, 50, 30));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/close.png"))); // NOI18N
         jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -218,7 +218,7 @@ public class Partida extends javax.swing.JFrame implements Observer {
         jltema.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jltema.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jltema.setToolTipText("");
-        jPanel1.add(jltema, new org.netbeans.lib.awtextra.AbsoluteConstraints(237, 0, 100, 41));
+        jPanel1.add(jltema, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 460, 100, 30));
 
         jlpista.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jlpista.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -253,10 +253,22 @@ public class Partida extends javax.swing.JFrame implements Observer {
                 jlimagen.setIcon(img[errores]);
                 if (errores == 6) {
                     rondas++;
+                    errores=0;
+                    adivina = null;
+                    letras.clear();
                     jlimagen.setIcon(img[0]);
                     comienza(copy_ob);
                 } else {
                     tiem.start();
+                }
+                if(rondas==2){
+                    String mensaje = "Soy " + playerClient.getUsername() + " ya termine de jugar";
+                    playerClient.setMensaje(mensaje);
+                    playerClient.setTipoMensaje(3);
+                    playerClient.setScore(score);
+                    EnviarMensaje c = new EnviarMensaje(playerClient.getIpServer(), 5000, playerClient);
+                    Thread t = new Thread(c);
+                    t.start();
                 }
                 s = 15;
                 cs = 0;
@@ -305,7 +317,11 @@ public class Partida extends javax.swing.JFrame implements Observer {
                     score++;
                     jlscore.setText("" + score);
                     rondas++;
+                    errores=0;
+                    adivina = null;
+                    letras.clear();
                     jlimagen.setIcon(img[0]);
+                    
                     comienza(copy_ob);
                 } else {
                     tiem.start();
@@ -323,6 +339,9 @@ public class Partida extends javax.swing.JFrame implements Observer {
                 if (errores == 6) {
                     Mensaje.error(this, "Ronda perdida");
                     rondas++;
+                    errores=0;
+                    adivina = null;
+                    letras.clear();
                     jlimagen.setIcon(img[0]);
                     comienza(copy_ob);
                 } else {
@@ -334,7 +353,7 @@ public class Partida extends javax.swing.JFrame implements Observer {
         }
         jtfletra.setText("");
         if(rondas==2){
-            String mensaje = "Soy " + playerClient.getUsername() + " y termine de jugar";
+            String mensaje = "Soy " + playerClient.getUsername() + " ya termine de jugar";
             playerClient.setMensaje(mensaje);
             playerClient.setTipoMensaje(3);
             playerClient.setScore(score);
@@ -446,8 +465,10 @@ public class Partida extends javax.swing.JFrame implements Observer {
 
         } else if (obj.getTipoMensaje() == 4) {//recibe ganador
             this.jLMessage.setText(obj.getMensaje());
-            System.out.println("Palabra 1: " + obj.getPalabrasFull().get(0).getPalabra());
-            System.out.println("Palabra 2: " + obj.getPalabrasFull().get(1).getPalabra());
+            Mensaje.exito(this, obj.getMensaje());
+            LoginClient xd = new LoginClient();
+            xd.setVisible(true);
+            this.dispose();
         }
     }
 

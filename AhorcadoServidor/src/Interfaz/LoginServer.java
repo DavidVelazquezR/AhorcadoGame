@@ -307,7 +307,7 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
             System.out.println("Numero de usuarios conectados: " + counterUsers);
             this.jTAHistory.append("\nNumero de usuarios conectados: " + counterUsers);
 
-            if (usuariosRegistro.size() < 1) {
+            if (usuariosRegistro.size() < 2) {
                 usuariosRegistro.add(objF1);
             } else {
                 System.out.println("Ya no aceptamos usuarios ue >:v\n a chigar a su madre");
@@ -328,7 +328,6 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
                 EnviarMensaje objF12 = empieza(2);
                 Thread t3 = new Thread(objF12);
                 t3.start();
-
                 while (t3.isAlive()) {
                 }
                 EnviarMensaje objF13 = empieza(1);
@@ -337,7 +336,8 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
 
                 this.jTAHistory.append("\nJuegos Iniciados ");
             }
-        } else if (obj.getTipoMensaje() == 3) {
+        } 
+        else if (obj.getTipoMensaje() == 3) {
             Mensajes obj_fin1 = obj;
             counterScore++;
             if (counterScore == 1) {
