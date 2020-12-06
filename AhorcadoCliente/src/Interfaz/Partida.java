@@ -455,7 +455,10 @@ public class Partida extends javax.swing.JFrame implements Observer {
             this.dispose();
         }else if (obj.getTipoMensaje()==6) {
             Mensaje.error(this, obj.getMensaje());
-            
+            LoginClient ac = new LoginClient();
+            ac.setVisible(true);
+            System.exit(0);
+            ac.dispose();
             System.exit(0);
             ///new LoginClient().setVisible(true);
         }
