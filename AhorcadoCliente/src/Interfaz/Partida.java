@@ -478,6 +478,15 @@ public class Partida extends javax.swing.JFrame implements Observer {
             playerClient.setScore(score);
             jLMessage.setText("Esperando al otro jugador...");
             EnviarMensaje c = new EnviarMensaje(playerClient.getIpServer(), 5000, playerClient);
+            rondas=0;
+            errores = 0;
+            rondas = 0;
+            score = 0;
+            playerClient=null;
+            palabras.clear();
+            adivina=null;
+            letras.clear();
+            copy_ob=null;
             Thread t = new Thread(c);
             t.start();
         } else {

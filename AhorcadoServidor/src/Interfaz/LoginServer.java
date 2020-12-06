@@ -388,6 +388,7 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
                 palabrasAhorcado.clear();
                 counterScore = 0;
                 counterUsers = 0;
+                jTAHistory.append("\n-------------------------------");
                 busca_palabras();
             }
 
