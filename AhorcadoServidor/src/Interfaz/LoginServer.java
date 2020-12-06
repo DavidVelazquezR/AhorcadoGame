@@ -24,9 +24,8 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
     public static int counterUsers = 0;
     public static int counterScore = 0;
     public static int[] ar_scores = {-1, -1};
-    
-    int comienza = -1;
 
+    int comienza = -1;
     ArrayList<Mensajes> usuariosRegistro = new ArrayList<Mensajes>();
     ArrayList<Mensajes> mensajesPalabras = new ArrayList<Mensajes>();
 
@@ -188,41 +187,7 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
 
         jTFIPServer.setEditable(false);
 
-        //Preparamos las consultas a BD de las palabras
-        Querys q = new Querys();
-
-        ArrayList<Object> numeroP = new ArrayList<Object>();
-
-        try {
-            mapeoPalabras = q.Seleccion(con, "Contenido", "palabras", "");
-            mapeoPista = q.Seleccion(con, "Pista", "palabras", "");
-            mapeoTema = q.Seleccion(con, "Tema", "palabras", "");
-        } catch (Exception es) {
-            System.out.println("Error en la consulta de BD..." + es);
-        }
-
-        int sizeP = mapeoPalabras.size();
-        int num = 0;
-        for (int i = 0; i < 2; i++) {
-            num = ((int) Math.floor(Math.random() * (sizeP + 1)));
-            if (numeroP.contains(num)) {
-                i--;
-            } else {
-                numeroP.add(num);
-            }
-        }
-        int auxRandom = 0;
-        for (int i = 0; i < 2; i++) {
-            Mensajes palabras = new Mensajes();
-            palabras.setPalabra((String) mapeoPalabras.get((int) numeroP.get(auxRandom)));
-            System.out.println("Palabra " + aux + ": " + (String) mapeoPalabras.get((int) numeroP.get(auxRandom)));
-            palabras.setPista((String) mapeoPista.get((int) numeroP.get(auxRandom)));
-            palabras.setTema((String) mapeoTema.get((int) numeroP.get(auxRandom)));
-            palabras.setMensaje("ya puedes Jugar");
-            palabras.setTipoMensaje(3);
-            mensajesPalabras.add(palabras);
-            auxRandom++;
-        }
+        busca_palabras();
     }//GEN-LAST:event_formWindowOpened
 
     private void jPanel5MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseDragged
@@ -313,6 +278,9 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
                 usuariosRegistro.add(objF1);
             } else {
                 System.out.println("Ya no aceptamos usuarios ue >:v\n a chigar a su madre");
+                objF1.setTipoMensaje(6);
+                objF1.setMensaje("Sala llena");
+                counterUsers--;
             }
             if (counterUsers < 2) {
                 objF1.setTipoMensaje(0);
@@ -338,62 +306,129 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
 
                 this.jTAHistory.append("\nJuegos Iniciados ");
             }
-        } 
-        else if (obj.getTipoMensaje() == 3) {
+        } else if (obj.getTipoMensaje() == 3) {
             Mensajes obj_fin1 = obj;
-            this.jTAHistory.append("\n"+obj.getMensaje());
+            this.jTAHistory.append("\n" + obj.getMensaje());
             counterScore++;
             if (counterScore == 1) {
                 for (int i = 0; i < usuariosRegistro.size(); i++) {
                     if (usuariosRegistro.get(i).getIpHamachi().equals(obj.getIpHamachi())) {
-                        ar_scores[i] = obj.getScore();
-                        ///comienza = i;
+                        comienza = i;
+                        usuariosRegistro.get(i).setScore(obj_fin1.getScore());
                     }
                 }
             } else if (counterScore == 2) {
-                ar_scores[comienza] = obj.getScore();
-                if (ar_scores[0] > ar_scores[1]) {
-                    obj_fin1.setMensaje("Ganaste!! ");
+                for (int i = 0; i < usuariosRegistro.size(); i++) {
+                    if (usuariosRegistro.get(i).getIpHamachi().equals(obj.getIpHamachi())) {
+                        usuariosRegistro.get(i).setScore(obj_fin1.getScore());
+                    }
+                }
+                if (usuariosRegistro.get(0).getScore() > usuariosRegistro.get(1).getScore()) {
+
+                    obj_fin1.setMensaje("Ganaste " + usuariosRegistro.get(0).getUsername());
                     obj_fin1.setTipoMensaje(4);
-                    EnviarMensaje objFF1  = new EnviarMensaje(usuariosRegistro.get(1).getIpHamachi(), 5000, obj_fin1);
+                    jTAHistory.append("\n Usuario ganador: " + usuariosRegistro.get(0).getUsername());
+                    EnviarMensaje objFF1 = new EnviarMensaje(usuariosRegistro.get(0).getIpHamachi(), 5000, obj_fin1);
                     Thread t8 = new Thread(objFF1);
                     t8.start();
-                    while (t8.isAlive()){}
-                    obj_fin1.setMensaje("Perdiste u.u");
+
+                    while (t8.isAlive()) {
+                    }
+
+                    obj_fin1.setMensaje("Perdiste " + usuariosRegistro.get(1).getUsername());
                     obj_fin1.setTipoMensaje(4);
-                    EnviarMensaje objFF2  = new EnviarMensaje(usuariosRegistro.get(0).getIpHamachi(), 5000, obj_fin1);
+                    jTAHistory.append("\n Usuario perdedor: " + usuariosRegistro.get(1).getUsername());
+                    EnviarMensaje objFF2 = new EnviarMensaje(usuariosRegistro.get(1).getIpHamachi(), 5000, obj_fin1);
                     Thread t9 = new Thread(objFF2);
                     t9.start();
-                } else if (ar_scores[0] < ar_scores[1]) {
-                    obj_fin1.setMensaje("Ganaste!! ");
+
+                } else if (usuariosRegistro.get(0).getScore() < usuariosRegistro.get(1).getScore()) {
+
+                    obj_fin1.setMensaje("Ganaste " + usuariosRegistro.get(1).getUsername());
                     obj_fin1.setTipoMensaje(4);
-                    EnviarMensaje objFF1  = new EnviarMensaje(usuariosRegistro.get(1).getIpHamachi(), 5000, obj_fin1);
+                    jTAHistory.append("\n Usuario ganador: " + usuariosRegistro.get(1).getUsername());
+                    EnviarMensaje objFF1 = new EnviarMensaje(usuariosRegistro.get(1).getIpHamachi(), 5000, obj_fin1);
                     Thread t8 = new Thread(objFF1);
                     t8.start();
-                    while (t8.isAlive()){}
-                    obj_fin1.setMensaje("Perdiste u.u");
+
+                    while (t8.isAlive()) {
+                    }
+
+                    obj_fin1.setMensaje("Perdiste " + usuariosRegistro.get(0).getUsername());
                     obj_fin1.setTipoMensaje(4);
-                    EnviarMensaje objFF2  = new EnviarMensaje(usuariosRegistro.get(0).getIpHamachi(), 5000, obj_fin1);
+                    jTAHistory.append("\n Usuario perdedor: " + usuariosRegistro.get(0).getUsername());
+                    EnviarMensaje objFF2 = new EnviarMensaje(usuariosRegistro.get(0).getIpHamachi(), 5000, obj_fin1);
                     Thread t9 = new Thread(objFF2);
                     t9.start();
-                } else if(ar_scores[0] == ar_scores[1]){
+
+                } else if (usuariosRegistro.get(0).getScore() == usuariosRegistro.get(1).getScore()) {
+
+                    jTAHistory.append("\n Jugadores empatados");
                     obj_fin1.setMensaje("Empate");
                     obj_fin1.setTipoMensaje(4);
-                    EnviarMensaje objFF1  = new EnviarMensaje(usuariosRegistro.get(1).getIpHamachi(), 5000, obj_fin1);
+                    EnviarMensaje objFF1 = new EnviarMensaje(usuariosRegistro.get(1).getIpHamachi(), 5000, obj_fin1);
                     Thread t8 = new Thread(objFF1);
                     t8.start();
-                    while (t8.isAlive()){}
+
+                    while (t8.isAlive()) {
+                    }
+
                     obj_fin1.setMensaje("Empate");
                     obj_fin1.setTipoMensaje(4);
-                    EnviarMensaje objFF2  = new EnviarMensaje(usuariosRegistro.get(0).getIpHamachi(), 5000, obj_fin1);
+                    EnviarMensaje objFF2 = new EnviarMensaje(usuariosRegistro.get(0).getIpHamachi(), 5000, obj_fin1);
                     Thread t9 = new Thread(objFF2);
                     t9.start();
                 }
-                
+                usuariosRegistro.clear();
+                comienza = -1;
+                mensajesPalabras.clear();
+                mapeoPalabras.clear();
+                mapeoTema.clear();
+                mapeoPista.clear();
+                palabrasAhorcado.clear();
+                counterScore = 0;
+                counterUsers = 0;
+                busca_palabras();
             }
 
         }
 
+    }
+
+    private void busca_palabras() {
+        //Preparamos las consultas a BD de las palabras
+        Querys q = new Querys();
+        ArrayList<Object> numeroP = new ArrayList<Object>();
+        try {
+            mapeoPalabras = q.Seleccion(con, "Contenido", "palabras", "");
+            mapeoPista = q.Seleccion(con, "Pista", "palabras", "");
+            mapeoTema = q.Seleccion(con, "Tema", "palabras", "");
+        } catch (Exception es) {
+            System.out.println("Error en la consulta de BD..." + es);
+        }
+
+        int sizeP = mapeoPalabras.size();
+        int num = 0;
+        for (int i = 0; i < 2; i++) {
+            num = ((int) Math.floor(Math.random() * (sizeP + 1)));
+            if (numeroP.contains(num)) {
+                i--;
+            } else {
+                numeroP.add(num);
+            }
+        }
+        int auxRandom = 0;
+        for (int i = 0; i < 2; i++) {
+            Mensajes palabras = new Mensajes();
+            palabras.setPalabra((String) mapeoPalabras.get((int) numeroP.get(auxRandom)));
+            System.out.println("Palabra " + i + ": " + (String) mapeoPalabras.get((int) numeroP.get(auxRandom)));
+            palabras.setPista((String) mapeoPista.get((int) numeroP.get(auxRandom)));
+            palabras.setTema((String) mapeoTema.get((int) numeroP.get(auxRandom)));
+            palabras.setMensaje("ya puedes Jugar");
+            palabras.setTipoMensaje(3);
+            mensajesPalabras.add(palabras);
+            auxRandom++;
+        }
     }
 
     private EnviarMensaje empieza(int i) {

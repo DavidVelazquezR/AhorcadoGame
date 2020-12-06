@@ -453,6 +453,10 @@ public class Partida extends javax.swing.JFrame implements Observer {
             LoginClient xd = new LoginClient();
             xd.setVisible(true);
             this.dispose();
+        }else if (obj.getTipoMensaje()==6) {
+            Mensaje.error(this, obj.getMensaje());
+            this.dispose();
+            new LoginClient().setVisible(true);
         }
     }
 
@@ -472,6 +476,7 @@ public class Partida extends javax.swing.JFrame implements Observer {
             playerClient.setMensaje(mensaje);
             playerClient.setTipoMensaje(3);
             playerClient.setScore(score);
+            jLMessage.setText("Esperando al otro jugador...");
             EnviarMensaje c = new EnviarMensaje(playerClient.getIpServer(), 5000, playerClient);
             Thread t = new Thread(c);
             t.start();
