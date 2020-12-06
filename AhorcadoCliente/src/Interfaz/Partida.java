@@ -451,23 +451,19 @@ public class Partida extends javax.swing.JFrame implements Observer {
             this.jLMessage.setText(obj.getMensaje());
             System.out.println("Palabra 1: " + obj.getPalabrasFull().get(0).getPalabra());
             System.out.println("Palabra 2: " + obj.getPalabrasFull().get(1).getPalabra());
-            System.out.println("Palabra 3: " + obj.getPalabrasFull().get(2).getPalabra());
-            System.out.println("Palabra 4: " + obj.getPalabrasFull().get(3).getPalabra());
-            inicia_juego(obj);
+            //inicia_juego(obj);
 
         } else if (obj.getTipoMensaje() == 4) {//recibe ganador
             this.jLMessage.setText(obj.getMensaje());
             System.out.println("Palabra 1: " + obj.getPalabrasFull().get(0).getPalabra());
             System.out.println("Palabra 2: " + obj.getPalabrasFull().get(1).getPalabra());
-            System.out.println("Palabra 3: " + obj.getPalabrasFull().get(2).getPalabra());
-            System.out.println("Palabra 4: " + obj.getPalabrasFull().get(3).getPalabra());
         }
     }
 
     private void inicia_juego(Mensajes obj) {
         String palabra, tema, pista;
         if (Mensaje.pregunta(this, "¿Estas seguro de comenzar la partida?") == JOptionPane.YES_OPTION) {
-            while(rondas < 4){
+            while(rondas < 2){
                 Mensaje.exito(this, "Comienza ronda "+rondas);
                 errores = 0;
                 palabra = obj.getPalabrasFull().get(rondas).getPalabra();

@@ -198,13 +198,13 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
 
         int sizeP = mapeoPalabras.size();
         int num = 0;
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 2; i++) {
             num = ((int) Math.floor(Math.random() * (sizeP + 1)));
             if(numeroP.contains(num)) i--;
             else  numeroP.add(num);
         }
         int auxRandom = 0;
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 2; i++) {
             Mensajes palabras = new Mensajes();
             palabras.setPalabra((String) mapeoPalabras.get((int) numeroP.get(auxRandom)));
             System.out.println("Palabra " + aux + ": " + (String) mapeoPalabras.get((int) numeroP.get(auxRandom)));
