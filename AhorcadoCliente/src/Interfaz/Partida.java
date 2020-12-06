@@ -116,7 +116,6 @@ public class Partida extends javax.swing.JFrame implements Observer {
         jlpalabra.setBackground(new java.awt.Color(255, 255, 255));
         jlpalabra.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jlpalabra.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jlpalabra.setText("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ ");
 
         jtfletra.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jtfletra.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -210,7 +209,9 @@ public class Partida extends javax.swing.JFrame implements Observer {
         jltema.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jltema.setToolTipText("");
 
-        jlpista.setText("Aqui va la pista");
+        jlpista.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jlpista.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlpista.setText("Pista: ");
         jlpista.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -229,13 +230,11 @@ public class Partida extends javax.swing.JFrame implements Observer {
                 .addComponent(jltema, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(71, 71, 71)
-                .addComponent(jlpista, javax.swing.GroupLayout.PREFERRED_SIZE, 552, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jlimagen)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jlpista, javax.swing.GroupLayout.PREFERRED_SIZE, 552, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jlimagen))
                 .addGap(87, 87, 87))
         );
         jPanel1Layout.setVerticalGroup(
@@ -252,9 +251,9 @@ public class Partida extends javax.swing.JFrame implements Observer {
                         .addComponent(jltema, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jlimagen)
-                .addGap(13, 13, 13)
-                .addComponent(jlpista, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jlpista, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -371,10 +370,9 @@ public class Partida extends javax.swing.JFrame implements Observer {
                 AccesActionPerformed(null);
             }
             errores++;
-            jlimagen.setIcon(img[errores - 1]);
-
+            jlimagen.setIcon(img[errores]);
         }
-
+        jtfletra.setText("");
 
     }//GEN-LAST:event_AccesActionPerformed
 
@@ -400,6 +398,10 @@ public class Partida extends javax.swing.JFrame implements Observer {
     }//GEN-LAST:event_jPanel1MousePressed
 
     private void jtfletraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfletraKeyTyped
+        char c = evt.getKeyChar();
+        if (Character.isLowerCase(c)) {
+            evt.setKeyChar(Character.toUpperCase(c));
+        }
         if (jtfletra.getText().length() > 0) {
             evt.consume();
         }
@@ -498,6 +500,8 @@ public class Partida extends javax.swing.JFrame implements Observer {
         palabra = obj.getPalabrasFull().get(rondas).getPalabra();
         tema = obj.getPalabrasFull().get(rondas).getTema();
         pista = obj.getPalabrasFull().get(rondas).getPista();
+        jltema.setText(tema);
+        jlpista.setText("Pista: "+pista);
         ronda(palabra, errores);
         tiem.start();
     }
@@ -505,10 +509,18 @@ public class Partida extends javax.swing.JFrame implements Observer {
     private void ronda(String palabra, int errores) {
         adivina = new String[palabra.length()];
         for (int i = 0; i < palabra.length() - 1; i++) {
-            adivina[i] = "_ ";
+            if(palabra.charAt(i)==' '){
+                adivina[i] = "  ";
+            }else{
+                adivina[i] = "_ ";
+            }
             letras.add(palabra.charAt(i) + "");
         }
-
+        String adivinaf = "";
+        for (int j = 0; j < adivina.length; j++) {
+            adivinaf = adivinaf + adivina[j];
+        }
+        jlpalabra.setText(adivinaf);
     }
 
     private boolean verifica_win() {
