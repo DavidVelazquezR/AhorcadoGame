@@ -214,8 +214,17 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
         }
 
         int sizeP = mapeoPalabras.size();
+        int num = 0;
         for (int i = 0; i < 4; i++) {
-            numeroP.add((int) Math.floor(Math.random() * (sizeP + 1)));
+            num = ((int) Math.floor(Math.random() * (sizeP + 1)));
+            if(numeroP.contains(num)){ 
+                i--;
+                System.out.println("repetido");
+            }
+            else {
+                System.out.println("aceptado");
+                numeroP.add(num);
+            }
 
         }
 
