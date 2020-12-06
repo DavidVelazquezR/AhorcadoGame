@@ -25,11 +25,13 @@ public class Partida extends javax.swing.JFrame implements Observer {
     int rondas = 0;
     int score = 0;
     ImageIcon[] img = new ImageIcon[7];
+    Mensajes copy_ob = new Mensajes();
+
     public Partida(Mensajes p) {
         initComponents();
         this.setLocationRelativeTo(null);
         for (int i = 0; i < img.length; i++) {
-            img[i] = new ImageIcon("/src/Imagenes/i"+(i)+".png");
+            img[i] = new ImageIcon("/src/Imagenes/i" + (i) + ".png");
         }
         //para restriccion en casilla
         RestrictedTextField r = new RestrictedTextField(jtfletra);
@@ -270,7 +272,7 @@ public class Partida extends javax.swing.JFrame implements Observer {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     private Timer tiem;
-    private int s = 30, cs=0;
+    private int s = 30, cs = 0;
 
     private ActionListener acciones = new ActionListener() {
 
@@ -288,7 +290,20 @@ public class Partida extends javax.swing.JFrame implements Observer {
 
             if (s == 0) {
                 tiem.stop();
-                JOptionPane.showMessageDialog(null, "Tu tiempo se ha terminado", "LOSE", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Tu tiempo se ha terminado", "Tiempo agotado", JOptionPane.INFORMATION_MESSAGE);
+                if (errores == 6) {
+                    rondas++;
+                    jlimagen.setIcon(img[0]);
+                    comienza(copy_ob);
+                } else {
+                    tiem.start();
+                }
+
+                errores++;
+                jlimagen.setIcon(img[errores]);
+                s = 30;
+                cs = 0;
+                tiem.start();
             }
         }
 
@@ -301,7 +316,7 @@ public class Partida extends javax.swing.JFrame implements Observer {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         //Iniciar temporizador
-        
+
     }//GEN-LAST:event_formWindowOpened
 
     private void AccesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AccesActionPerformed
@@ -309,26 +324,27 @@ public class Partida extends javax.swing.JFrame implements Observer {
         ArrayList<Integer> posciones = new ArrayList<Integer>();
         tiem.stop();
         s = 30;
-        cs=0;
-        if(letras.contains(valor_let)){            
-             Mensaje.exito(this, "Letra correcta");
+        cs = 0;
+        if (letras.contains(valor_let)) {
+            Mensaje.exito(this, "Letra correcta");
             if (Mensaje.pregunta(this, "¿Continuar?") == JOptionPane.YES_OPTION) {
                 boolean victoria = verifica_win();
-                if(victoria){
+                if (victoria) {
                     Mensaje.exito(this, "Ronda ganada");
                     score++;
-                    jlscore.setText(""+score);
+                    jlscore.setText("" + score);
                     rondas++;
                     jlimagen.setIcon(img[0]);
-                }else{
+                    comienza(copy_ob);
+                } else {
                     tiem.start();
                 }
-            }else{
+            } else {
                 AccesActionPerformed(null);
             }
             for (int i = 0; i < letras.size(); i++) {
                 if (letras.get(i).equals(valor_let)) {
-                   posciones.add(i);
+                    posciones.add(i);
                 }
             }
             for (int i = 0; i < posciones.size(); i++) {
@@ -336,29 +352,30 @@ public class Partida extends javax.swing.JFrame implements Observer {
             }
             String pal_ff = "";
             for (int i = 0; i < adivina.length; i++) {
-                pal_ff = pal_ff + adivina[i]+" ";
+                pal_ff = pal_ff + adivina[i] + " ";
             }
             jlpalabra.setText(pal_ff);
-        }else{
+        } else {
             Mensaje.error(this, "Letra incorrecta");
-            
+
             if (Mensaje.pregunta(this, "¿Continuar?") == JOptionPane.YES_OPTION) {
                 if (errores == 6) {
                     Mensaje.error(this, "Ronda perdida");
                     rondas++;
                     jlimagen.setIcon(img[0]);
-                }else{
+                    comienza(copy_ob);
+                } else {
                     tiem.start();
                 }
-            }else{
+            } else {
                 AccesActionPerformed(null);
             }
             errores++;
-            jlimagen.setIcon(img[errores-1]);
-            
+            jlimagen.setIcon(img[errores - 1]);
+
         }
-        
-        
+
+
     }//GEN-LAST:event_AccesActionPerformed
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
@@ -366,7 +383,7 @@ public class Partida extends javax.swing.JFrame implements Observer {
 //        l.setVisible(true);
 //        //Parar el cronometro
         if (tiem.isRunning()) {
-           tiem.stop(); 
+            tiem.stop();
         }
         this.dispose();
     }//GEN-LAST:event_jLabel3MouseClicked
@@ -383,7 +400,7 @@ public class Partida extends javax.swing.JFrame implements Observer {
     }//GEN-LAST:event_jPanel1MousePressed
 
     private void jtfletraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfletraKeyTyped
-        if(jtfletra.getText().length()>0){
+        if (jtfletra.getText().length() > 0) {
             evt.consume();
         }
     }//GEN-LAST:event_jtfletraKeyTyped
@@ -453,7 +470,7 @@ public class Partida extends javax.swing.JFrame implements Observer {
             this.jLMessage.setText(obj.getMensaje());
             System.out.println("Palabra 1: " + obj.getPalabrasFull().get(0).getPalabra());
             System.out.println("Palabra 2: " + obj.getPalabrasFull().get(1).getPalabra());
-            //inicia_juego(obj);
+            inicia_juego(obj);
 
         } else if (obj.getTipoMensaje() == 4) {//recibe ganador
             this.jLMessage.setText(obj.getMensaje());
@@ -465,32 +482,36 @@ public class Partida extends javax.swing.JFrame implements Observer {
     private void inicia_juego(Mensajes obj) {
         if (Mensaje.pregunta(this, "¿Estas seguro de comenzar la partida?") == JOptionPane.YES_OPTION) {
             comienza(obj);
-        }else{
+        } else {
             inicia_juego(obj);
         }
-        
+
     }
-    private void comienza(Mensajes obj){
+    boolean repetir = true;
+
+    private void comienza(Mensajes obj) {
+        copy_ob = obj;
         String palabra, tema, pista;
-        while(rondas < 2){
-            Mensaje.exito(this, "Comienza ronda "+rondas+1);
-            errores = 0;
-            palabra = obj.getPalabrasFull().get(rondas).getPalabra();
-            tema = obj.getPalabrasFull().get(rondas).getTema();
-            pista = obj.getPalabrasFull().get(rondas).getPista();
-            ronda(palabra,errores);
-        }
+        Mensaje.exito(this, "Comienza ronda " + rondas + 1);
+        errores = 0;
+        repetir = false;
+        palabra = obj.getPalabrasFull().get(rondas).getPalabra();
+        tema = obj.getPalabrasFull().get(rondas).getTema();
+        pista = obj.getPalabrasFull().get(rondas).getPista();
+        ronda(palabra, errores);
+        tiem.start();
     }
-    
-    private void ronda(String palabra, int errores){
+
+    private void ronda(String palabra, int errores) {
         adivina = new String[palabra.length()];
-        for (int i = 0; i < palabra.length()-1; i++) {
+        for (int i = 0; i < palabra.length() - 1; i++) {
             adivina[i] = "_ ";
-            letras.add(palabra.charAt(i)+"");
+            letras.add(palabra.charAt(i) + "");
         }
+
     }
-    
-    private boolean verifica_win(){
+
+    private boolean verifica_win() {
         for (int i = 0; i < adivina.length; i++) {
             if (adivina[i].equals("_ ")) {
                 return false;

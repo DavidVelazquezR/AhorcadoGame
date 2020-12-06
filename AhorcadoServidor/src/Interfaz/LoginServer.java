@@ -301,24 +301,24 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
             System.out.println("Numero de usuarios conectados: " + counterUsers);
             this.jTAHistory.append("\nNumero de usuarios conectados: " + counterUsers);
 
-            if (usuariosRegistro.size() <3) {
+            if (usuariosRegistro.size() <2) {
                 usuariosRegistro.add(objF1);
             } else{
                 System.out.println("Ya no aceptamos usuarios ue >:v\n a chigar a su madre");
             }
-            if(counterUsers < 3){
+            if(counterUsers < 2){
                 objF1.setTipoMensaje(0);
                 objF1.setMensaje("El server dice que esperes: " + usuariosRegistro.get(counterUsers - 1).getUsername() + "\n");
                 //objF1.setPalabrasFull(mensajesPalabras);
                 EnviarMensaje c = new EnviarMensaje(usuariosRegistro.get(counterUsers - 1).getIpHamachi(), 5000, objF1);
                 Thread t1 = new Thread(c);
                 t1.start();
-            }else if(counterUsers == 3){
-                EnviarMensaje objF11 = empieza(3);
-                Thread t2 = new Thread(objF11);
-                t2.start();
+            }else if(counterUsers == 2){
+//                EnviarMensaje objF11 = empieza(3);
+//                Thread t2 = new Thread(objF11);
+//                t2.start();
                 
-                while(t2.isAlive()){}
+//                while(t2.isAlive()){}
                 EnviarMensaje objF12 = empieza(2);
                 Thread t3 = new Thread(objF12);
                 t3.start();
