@@ -333,6 +333,15 @@ public class Partida extends javax.swing.JFrame implements Observer {
             }
         }
         jtfletra.setText("");
+        if(rondas==2){
+            String mensaje = "Soy " + playerClient.getUsername() + " y termine de jugar";
+            playerClient.setMensaje(mensaje);
+            playerClient.setTipoMensaje(3);
+            playerClient.setScore(score);
+            EnviarMensaje c = new EnviarMensaje(playerClient.getIpServer(), 5000, playerClient);
+            Thread t = new Thread(c);
+            t.start();
+        }
 
     }//GEN-LAST:event_AccesActionPerformed
 

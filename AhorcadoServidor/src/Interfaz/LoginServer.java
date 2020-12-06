@@ -22,6 +22,9 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
     private EscuchaMensaje s;
 
     public static int counterUsers = 0;
+    public static int counterScore = 0;
+    public static int[] ar_scores = {-1, -1};
+
     ArrayList<Mensajes> usuariosRegistro = new ArrayList<Mensajes>();
     ArrayList<Mensajes> mensajesPalabras = new ArrayList<Mensajes>();
 
@@ -200,8 +203,11 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
         int num = 0;
         for (int i = 0; i < 2; i++) {
             num = ((int) Math.floor(Math.random() * (sizeP + 1)));
-            if(numeroP.contains(num)) i--;
-            else  numeroP.add(num);
+            if (numeroP.contains(num)) {
+                i--;
+            } else {
+                numeroP.add(num);
+            }
         }
         int auxRandom = 0;
         for (int i = 0; i < 2; i++) {
@@ -301,44 +307,93 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
             System.out.println("Numero de usuarios conectados: " + counterUsers);
             this.jTAHistory.append("\nNumero de usuarios conectados: " + counterUsers);
 
-            if (usuariosRegistro.size() <1) {
+            if (usuariosRegistro.size() < 1) {
                 usuariosRegistro.add(objF1);
-            } else{
+            } else {
                 System.out.println("Ya no aceptamos usuarios ue >:v\n a chigar a su madre");
             }
-            if(counterUsers < 1){
+            if (counterUsers < 2) {
                 objF1.setTipoMensaje(0);
                 objF1.setMensaje("El server dice que esperes: " + usuariosRegistro.get(counterUsers - 1).getUsername() + "\n");
                 //objF1.setPalabrasFull(mensajesPalabras);
                 EnviarMensaje c = new EnviarMensaje(usuariosRegistro.get(counterUsers - 1).getIpHamachi(), 5000, objF1);
                 Thread t1 = new Thread(c);
                 t1.start();
-            }else if(counterUsers == 1){
+            } else if (counterUsers == 2) {
 //                EnviarMensaje objF11 = empieza(3);
 //                Thread t2 = new Thread(objF11);
 //                t2.start();
-                
+
 //                while(t2.isAlive()){}
-//                EnviarMensaje objF12 = empieza(2);
-//                Thread t3 = new Thread(objF12);
-//                t3.start();
-                
-//                while(t3.isAlive()){}
+                EnviarMensaje objF12 = empieza(2);
+                Thread t3 = new Thread(objF12);
+                t3.start();
+
+                while (t3.isAlive()) {
+                }
                 EnviarMensaje objF13 = empieza(1);
                 Thread t4 = new Thread(objF13);
                 t4.start();
-                
+
                 this.jTAHistory.append("\nJuegos Iniciados ");
             }
+        } else if (obj.getTipoMensaje() == 3) {
+            Mensajes obj_fin1 = obj;
+            counterScore++;
+            if (counterScore == 1) {
+                ar_scores[0] = obj.getScore();
+            } else if (counterScore == 2) {
+                ar_scores[1] = obj.getScore();
+                if (ar_scores[0] > ar_scores[1]) {
+                    obj_fin1.setMensaje("Ganaste!! ");
+                    obj_fin1.setTipoMensaje(4);
+                    EnviarMensaje objFF1  = new EnviarMensaje(usuariosRegistro.get(0).getIpHamachi(), 5000, obj_fin1);
+                    Thread t8 = new Thread(objFF1);
+                    t8.start();
+                    while (t8.isAlive()){}
+                    obj_fin1.setMensaje("Perdiste u.u");
+                    obj_fin1.setTipoMensaje(4);
+                    EnviarMensaje objFF2  = new EnviarMensaje(usuariosRegistro.get(1).getIpHamachi(), 5000, obj_fin1);
+                    Thread t9 = new Thread(objFF2);
+                    t9.start();
+                } else if (ar_scores[0] < ar_scores[1]) {
+                    obj_fin1.setMensaje("Ganaste!! ");
+                    obj_fin1.setTipoMensaje(4);
+                    EnviarMensaje objFF1  = new EnviarMensaje(usuariosRegistro.get(1).getIpHamachi(), 5000, obj_fin1);
+                    Thread t8 = new Thread(objFF1);
+                    t8.start();
+                    while (t8.isAlive()){}
+                    obj_fin1.setMensaje("Perdiste u.u");
+                    obj_fin1.setTipoMensaje(4);
+                    EnviarMensaje objFF2  = new EnviarMensaje(usuariosRegistro.get(0).getIpHamachi(), 5000, obj_fin1);
+                    Thread t9 = new Thread(objFF2);
+                    t9.start();
+                } else if(ar_scores[0] == ar_scores[1]){
+                    obj_fin1.setMensaje("Empate");
+                    obj_fin1.setTipoMensaje(4);
+                    EnviarMensaje objFF1  = new EnviarMensaje(usuariosRegistro.get(0).getIpHamachi(), 5000, obj_fin1);
+                    Thread t8 = new Thread(objFF1);
+                    t8.start();
+                    while (t8.isAlive()){}
+                    obj_fin1.setMensaje("Empate");
+                    obj_fin1.setTipoMensaje(4);
+                    EnviarMensaje objFF2  = new EnviarMensaje(usuariosRegistro.get(0).getIpHamachi(), 5000, obj_fin1);
+                    Thread t9 = new Thread(objFF2);
+                    t9.start();
+                }
+                
+            }
+
         }
 
     }
-    private EnviarMensaje empieza(int i){
+
+    private EnviarMensaje empieza(int i) {
         Mensajes a = new Mensajes();
         a.setTipoMensaje(2);
-        a.setMensaje("Ya puedes empezar "+usuariosRegistro.get(counterUsers-i).getUsername()+" \n");
+        a.setMensaje("Ya puedes empezar " + usuariosRegistro.get(counterUsers - i).getUsername() + " \n");
         a.setPalabrasFull(mensajesPalabras);
-        EnviarMensaje c3 = new EnviarMensaje(usuariosRegistro.get(counterUsers-i).getIpHamachi(), 5000, a);
+        EnviarMensaje c3 = new EnviarMensaje(usuariosRegistro.get(counterUsers - i).getIpHamachi(), 5000, a);
         return c3;
     }
 
