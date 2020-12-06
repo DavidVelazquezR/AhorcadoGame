@@ -52,7 +52,6 @@ public class LoginClient extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jTFUsername = new javax.swing.JTextField();
         jTFIpServer = new javax.swing.JTextField();
@@ -60,7 +59,6 @@ public class LoginClient extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         Acces = new javax.swing.JButton();
         jLabel17 = new javax.swing.JLabel();
-        jlespera = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -69,6 +67,7 @@ public class LoginClient extends javax.swing.JFrame {
                 formWindowOpened(evt);
             }
         });
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel5.setBackground(new java.awt.Color(254, 249, 231));
         jPanel5.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -84,28 +83,10 @@ public class LoginClient extends javax.swing.JFrame {
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel6.setBackground(new java.awt.Color(213, 241, 227));
+        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel9.setText("Desarrollado por @KONOHAGAKURE");
-
-        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/ico2.png"))); // NOI18N
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addComponent(jLabel13)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 511, Short.MAX_VALUE)
-                .addComponent(jLabel9))
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(0, 39, Short.MAX_VALUE)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
-        );
+        jLabel9.setText("Desarrollado por @Broos");
+        jPanel6.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 60, -1, -1));
 
         jPanel5.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 360, 750, 80));
 
@@ -155,26 +136,7 @@ public class LoginClient extends javax.swing.JFrame {
         });
         jPanel5.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 0, 40, 40));
 
-        jlespera.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jlespera.setText("Esperando Jugador");
-        jPanel5.add(jlespera, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 340, 130, 20));
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
+        getContentPane().add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -284,13 +246,11 @@ public class LoginClient extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JTextField jTFIpServer;
     private javax.swing.JTextField jTFUsername;
-    private javax.swing.JLabel jlespera;
     // End of variables declaration//GEN-END:variables
 }
