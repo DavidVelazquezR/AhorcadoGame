@@ -1,6 +1,7 @@
 package Interfaz;
 
 import Atxy2k.CustomTextField.RestrictedTextField;
+import cjb.ci.Mensaje;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -310,7 +311,7 @@ public class Partida extends javax.swing.JFrame implements Observer {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         //Iniciar temporizador
-        tiem.start();
+        
     }//GEN-LAST:event_formWindowOpened
 
     private void AccesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AccesActionPerformed
@@ -396,7 +397,7 @@ public class Partida extends javax.swing.JFrame implements Observer {
         //por si se quiere cambiar algo en cliente por respuesta del server
         Mensajes obj = (Mensajes) arg;
 
-        if (obj.getTipoMensaje() == 0) {
+        if (obj.getTipoMensaje() == 0) {///espera
             this.jLMessage.setText(obj.getMensaje());
             System.out.println(obj.getPalabra());
 
@@ -405,14 +406,31 @@ public class Partida extends javax.swing.JFrame implements Observer {
             System.out.println("Palabra 3: " + obj.getPalabrasFull().get(2).getPalabra());
             System.out.println("Palabra 4: " + obj.getPalabrasFull().get(3).getPalabra());
 
-        } else if (obj.getTipoMensaje() == 2) {
+        } else if (obj.getTipoMensaje() == 2) {//iniciar
             this.jLMessage.setText(obj.getMensaje());
-            System.out.println("Palabra: " + obj.getPalabra());
+            System.out.println("Palabra 1: " + obj.getPalabrasFull().get(0).getPalabra());
+            System.out.println("Palabra 2: " + obj.getPalabrasFull().get(1).getPalabra());
+            System.out.println("Palabra 3: " + obj.getPalabrasFull().get(2).getPalabra());
+            System.out.println("Palabra 4: " + obj.getPalabrasFull().get(3).getPalabra());
+            inicia_juego(obj);
 
-        } else if (obj.getTipoMensaje() == 3) {
+        } else if (obj.getTipoMensaje() == 4) {//recibe ganador
             this.jLMessage.setText(obj.getMensaje());
-            System.out.println("Palabra: " + obj.getPalabra());
+            System.out.println("Palabra 1: " + obj.getPalabrasFull().get(0).getPalabra());
+            System.out.println("Palabra 2: " + obj.getPalabrasFull().get(1).getPalabra());
+            System.out.println("Palabra 3: " + obj.getPalabrasFull().get(2).getPalabra());
+            System.out.println("Palabra 4: " + obj.getPalabrasFull().get(3).getPalabra());
         }
     }
+
+    private void inicia_juego(Mensajes obj) {
+        if (Mensaje.pregunta(this, "¿Estas seguro de comenzar la partida?") == JOptionPane.YES_OPTION) {
+            tiem.start();
+        }else{
+            inicia_juego(obj);
+        }
+        
+    }
+    
 
 }

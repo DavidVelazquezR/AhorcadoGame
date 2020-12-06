@@ -135,6 +135,7 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
         jLabel14.setText("IP del Servidor:");
         jPanel5.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 90, 100, 40));
 
+        jTAHistory.setEditable(false);
         jTAHistory.setColumns(20);
         jTAHistory.setRows(5);
         jTAHistory.setDisabledTextColor(new java.awt.Color(255, 255, 255));
@@ -312,7 +313,7 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
     public void update(Observable o, Object arg) {
         Mensajes obj = (Mensajes) arg;
 
-        if (obj.getTipoMensaje() == 1) {
+        if (obj.getTipoMensaje() == 1) {///
             Mensajes objF1 = obj;
             this.jTAHistory.append("\n" + ((Mensajes) arg).getMensaje());
             counterUsers++;
@@ -326,14 +327,24 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
             } else {
                 System.out.println("Ya no aceptamos usuarios ue >:v\n a chigar a su madre");
             }
-
-            objF1.setTipoMensaje(0);
-            objF1.setMensaje("El server dice que esperes: " + usuariosRegistro.get(counterUsers - 1).getUsername() + "\n");
-            objF1.setPalabrasFull(mensajesPalabras);
-
-            EnviarMensaje c = new EnviarMensaje(usuariosRegistro.get(counterUsers - 1).getIpHamachi(), 5000, objF1);
-            Thread t = new Thread(c);
-            t.start();
+            if(counterUsers == 1){
+                objF1.setTipoMensaje(0);
+                objF1.setMensaje("El server dice que esperes: " + usuariosRegistro.get(counterUsers - 1).getUsername() + "\n");
+                objF1.setPalabrasFull(mensajesPalabras);
+                EnviarMensaje c = new EnviarMensaje(usuariosRegistro.get(counterUsers - 1).getIpHamachi(), 5000, objF1);
+                Thread t = new Thread(c);
+                t.start();
+            }else if(counterUsers == 2){
+                objF1.setTipoMensaje(2);
+                objF1.setMensaje("Ya peudes empezar e.e : " + usuariosRegistro.get(counterUsers - 1).getUsername() + "\n");
+                objF1.setPalabrasFull(mensajesPalabras);
+                EnviarMensaje c = new EnviarMensaje(usuariosRegistro.get(counterUsers - 1).getIpHamachi(), 5000, objF1);
+                EnviarMensaje c2 = new EnviarMensaje(usuariosRegistro.get(counterUsers - 2).getIpHamachi(), 5000, objF1);
+                Thread t = new Thread(c);
+                t.start();
+                Thread t2 = new Thread(c2);
+                t2.start();
+            }
         }
 
     }
