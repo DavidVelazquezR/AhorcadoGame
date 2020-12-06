@@ -296,46 +296,50 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
 
         if (obj.getTipoMensaje() == 1) {///
             Mensajes objF1 = obj;
-            Mensajes objF2 = obj;
             this.jTAHistory.append("\n" + ((Mensajes) arg).getMensaje());
             counterUsers++;
             System.out.println("Numero de usuarios conectados: " + counterUsers);
             this.jTAHistory.append("\nNumero de usuarios conectados: " + counterUsers);
 
-            if (usuariosRegistro.isEmpty()) {
+            if (usuariosRegistro.size() <3) {
                 usuariosRegistro.add(objF1);
-            } else if (usuariosRegistro.size() == 1) {
-                usuariosRegistro.add(objF1);
-            } else {
+            } else{
                 System.out.println("Ya no aceptamos usuarios ue >:v\n a chigar a su madre");
             }
-            if(counterUsers == 1){
+            if(counterUsers < 3){
                 objF1.setTipoMensaje(0);
                 objF1.setMensaje("El server dice que esperes: " + usuariosRegistro.get(counterUsers - 1).getUsername() + "\n");
                 //objF1.setPalabrasFull(mensajesPalabras);
                 EnviarMensaje c = new EnviarMensaje(usuariosRegistro.get(counterUsers - 1).getIpHamachi(), 5000, objF1);
                 Thread t1 = new Thread(c);
                 t1.start();
-            }else if(counterUsers == 2){
-                objF1.setTipoMensaje(2);
-                objF1.setMensaje("Ya puedes empezar 1 e.e\n");
-                System.out.println("1~"+usuariosRegistro.get(1).getUsername());
-                objF1.setPalabrasFull(mensajesPalabras);
-                EnviarMensaje c = new EnviarMensaje(usuariosRegistro.get(1).getIpHamachi(), 5000, objF1);
-                Thread t2 = new Thread(c);
+            }else if(counterUsers == 3){
+                EnviarMensaje objF11 = empieza(3);
+                Thread t2 = new Thread(objF11);
                 t2.start();
+                
                 while(t2.isAlive()){}
-                objF2.setTipoMensaje(2);
-                objF2.setMensaje("Ya puedes empezar 2 e.e \n");
-                System.out.println("0~"+usuariosRegistro.get(0).getUsername());
-                objF2.setPalabrasFull(mensajesPalabras);
-                EnviarMensaje c2 = new EnviarMensaje(usuariosRegistro.get(0).getIpHamachi(), 5000, objF2);
-                Thread t3 = new Thread(c2);
+                EnviarMensaje objF12 = empieza(2);
+                Thread t3 = new Thread(objF12);
                 t3.start();
+                
+                while(t3.isAlive()){}
+                EnviarMensaje objF13 = empieza(1);
+                Thread t4 = new Thread(objF13);
+                t4.start();
+                
                 this.jTAHistory.append("\nJuegos Iniciados ");
             }
         }
 
+    }
+    private EnviarMensaje empieza(int i){
+        Mensajes a = new Mensajes();
+        a.setTipoMensaje(2);
+        a.setMensaje("Ya puedes empezar "+usuariosRegistro.get(counterUsers-i).getUsername()+" \n");
+        a.setPalabrasFull(mensajesPalabras);
+        EnviarMensaje c3 = new EnviarMensaje(usuariosRegistro.get(counterUsers-i).getIpHamachi(), 5000, a);
+        return c3;
     }
 
 }
