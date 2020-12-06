@@ -24,12 +24,12 @@ public class Partida extends javax.swing.JFrame implements Observer {
     int errores = 0;
     int rondas = 0;
     int score = 0;
-    ImageIcon[] img = new ImageIcon[6];
+    ImageIcon[] img = new ImageIcon[7];
     public Partida(Mensajes p) {
         initComponents();
         this.setLocationRelativeTo(null);
         for (int i = 0; i < img.length; i++) {
-            img[i] = new ImageIcon("/src/Imagenes/i"+(i+1)+".png");
+            img[i] = new ImageIcon("/src/Imagenes/i"+(i)+".png");
         }
         //para restriccion en casilla
         RestrictedTextField r = new RestrictedTextField(jtfletra);
@@ -319,6 +319,7 @@ public class Partida extends javax.swing.JFrame implements Observer {
                     score++;
                     jlscore.setText(""+score);
                     rondas++;
+                    jlimagen.setIcon(img[0]);
                 }else{
                     tiem.start();
                 }
@@ -345,6 +346,7 @@ public class Partida extends javax.swing.JFrame implements Observer {
                 if (errores == 6) {
                     Mensaje.error(this, "Ronda perdida");
                     rondas++;
+                    jlimagen.setIcon(img[0]);
                 }else{
                     tiem.start();
                 }
@@ -461,21 +463,23 @@ public class Partida extends javax.swing.JFrame implements Observer {
     }
 
     private void inicia_juego(Mensajes obj) {
-        String palabra, tema, pista;
         if (Mensaje.pregunta(this, "¿Estas seguro de comenzar la partida?") == JOptionPane.YES_OPTION) {
-            while(rondas < 2){
-                Mensaje.exito(this, "Comienza ronda "+rondas);
-                errores = 0;
-                palabra = obj.getPalabrasFull().get(rondas).getPalabra();
-                tema = obj.getPalabrasFull().get(rondas).getTema();
-                pista = obj.getPalabrasFull().get(rondas).getPista();
-                ronda(palabra,errores);
-            }
-            System.out.println("Termiando");
+            comienza(obj);
         }else{
             inicia_juego(obj);
         }
         
+    }
+    private void comienza(Mensajes obj){
+        String palabra, tema, pista;
+        while(rondas < 2){
+            Mensaje.exito(this, "Comienza ronda "+rondas+1);
+            errores = 0;
+            palabra = obj.getPalabrasFull().get(rondas).getPalabra();
+            tema = obj.getPalabrasFull().get(rondas).getTema();
+            pista = obj.getPalabrasFull().get(rondas).getPista();
+            ronda(palabra,errores);
+        }
     }
     
     private void ronda(String palabra, int errores){
