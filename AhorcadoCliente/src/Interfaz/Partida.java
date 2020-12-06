@@ -399,10 +399,10 @@ public class Partida extends javax.swing.JFrame implements Observer {
 
         if (obj.getTipoMensaje() == 0) {///espera
             this.jLMessage.setText(obj.getMensaje());
-            System.out.println("Palabra 1: " + obj.getPalabrasFull().get(0).getPalabra());
-            System.out.println("Palabra 2: " + obj.getPalabrasFull().get(1).getPalabra());
-            System.out.println("Palabra 3: " + obj.getPalabrasFull().get(2).getPalabra());
-            System.out.println("Palabra 4: " + obj.getPalabrasFull().get(3).getPalabra());
+//            System.out.println("Palabra 1: " + obj.getPalabrasFull().get(0).getPalabra());
+//            System.out.println("Palabra 2: " + obj.getPalabrasFull().get(1).getPalabra());
+//            System.out.println("Palabra 3: " + obj.getPalabrasFull().get(2).getPalabra());
+//            System.out.println("Palabra 4: " + obj.getPalabrasFull().get(3).getPalabra());
 
         } else if (obj.getTipoMensaje() == 2) {//iniciar
             this.jLMessage.setText(obj.getMensaje());
