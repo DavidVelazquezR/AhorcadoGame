@@ -272,7 +272,7 @@ public class Partida extends javax.swing.JFrame implements Observer {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     private Timer tiem;
-    private int s = 30, cs = 0;
+    private int s = 15, cs = 0;
 
     private ActionListener acciones = new ActionListener() {
 
@@ -291,6 +291,8 @@ public class Partida extends javax.swing.JFrame implements Observer {
             if (s == 0) {
                 tiem.stop();
                 JOptionPane.showMessageDialog(null, "Tu tiempo se ha terminado", "Tiempo agotado", JOptionPane.INFORMATION_MESSAGE);
+                errores++;
+                jlimagen.setIcon(img[errores]);
                 if (errores == 6) {
                     rondas++;
                     jlimagen.setIcon(img[0]);
@@ -298,10 +300,7 @@ public class Partida extends javax.swing.JFrame implements Observer {
                 } else {
                     tiem.start();
                 }
-
-                errores++;
-                jlimagen.setIcon(img[errores]);
-                s = 30;
+                s = 15;
                 cs = 0;
                 tiem.start();
             }
@@ -323,11 +322,25 @@ public class Partida extends javax.swing.JFrame implements Observer {
         String valor_let = jtfletra.getText();
         ArrayList<Integer> posciones = new ArrayList<Integer>();
         tiem.stop();
-        s = 30;
+        s = 15;
         cs = 0;
         if (letras.contains(valor_let)) {
             Mensaje.exito(this, "Letra correcta");
             if (Mensaje.pregunta(this, "¿Continuar?") == JOptionPane.YES_OPTION) {
+                for (int i = 0; i < letras.size(); i++) {
+                    if (letras.get(i).equals(valor_let)) {
+                        posciones.add(i);
+                    }
+                }
+                for (int i = 0; i < posciones.size(); i++) {
+                    adivina[posciones.get(i)] = valor_let;
+                }
+                String pal_ff = "";
+                for (int i = 0; i < adivina.length; i++) {
+                    pal_ff = pal_ff + adivina[i] + " ";
+                }
+                System.out.println("-" + Arrays.toString(adivina));
+                jlpalabra.setText(pal_ff);
                 boolean victoria = verifica_win();
                 if (victoria) {
                     Mensaje.exito(this, "Ronda ganada");
@@ -342,24 +355,13 @@ public class Partida extends javax.swing.JFrame implements Observer {
             } else {
                 AccesActionPerformed(null);
             }
-            for (int i = 0; i < letras.size(); i++) {
-                if (letras.get(i).equals(valor_let)) {
-                    posciones.add(i);
-                }
-            }
-            for (int i = 0; i < posciones.size(); i++) {
-                adivina[posciones.get(i)] = valor_let;
-            }
-            String pal_ff = "";
-            for (int i = 0; i < adivina.length; i++) {
-                pal_ff = pal_ff + adivina[i] + " ";
-            }
-            System.out.println("-" + Arrays.toString(adivina));
-            jlpalabra.setText(pal_ff);
+
         } else {
             Mensaje.error(this, "Letra incorrecta");
 
             if (Mensaje.pregunta(this, "¿Continuar?") == JOptionPane.YES_OPTION) {
+                errores++;
+                jlimagen.setIcon(img[errores]);
                 if (errores == 6) {
                     Mensaje.error(this, "Ronda perdida");
                     rondas++;
@@ -371,8 +373,6 @@ public class Partida extends javax.swing.JFrame implements Observer {
             } else {
                 AccesActionPerformed(null);
             }
-            errores++;
-            jlimagen.setIcon(img[errores]);
         }
         jtfletra.setText("");
 
