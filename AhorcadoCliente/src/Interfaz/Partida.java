@@ -450,16 +450,13 @@ public class Partida extends javax.swing.JFrame implements Observer {
         } else if (obj.getTipoMensaje() == 4) {//recibe ganador
             this.jLMessage.setText(obj.getMensaje());
             Mensaje.exito(this, obj.getMensaje());
-            LoginClient xd = new LoginClient();
-            xd.setVisible(true);
-            this.dispose();
-        }else if (obj.getTipoMensaje()==6) {
-            Mensaje.error(this, obj.getMensaje());
             LoginClient ac = new LoginClient();
             ac.setVisible(true);
             System.exit(0);
             ac.dispose();
             System.exit(0);
+        }else if (obj.getTipoMensaje()==6) {
+            Mensaje.error(this, obj.getMensaje());
             ///new LoginClient().setVisible(true);
         }
     }
