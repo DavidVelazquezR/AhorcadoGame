@@ -253,7 +253,7 @@ public class Partida extends javax.swing.JFrame implements Observer {
                 jlimagen.setIcon(img[errores]);
                 if (errores == 6) {
                     rondas++;
-                    errores=0;
+                    errores = 0;
                     adivina = null;
                     letras.clear();
                     jlimagen.setIcon(img[0]);
@@ -261,15 +261,7 @@ public class Partida extends javax.swing.JFrame implements Observer {
                 } else {
                     tiem.start();
                 }
-                if(rondas==2){
-                    String mensaje = "Soy " + playerClient.getUsername() + " ya termine de jugar";
-                    playerClient.setMensaje(mensaje);
-                    playerClient.setTipoMensaje(3);
-                    playerClient.setScore(score);
-                    EnviarMensaje c = new EnviarMensaje(playerClient.getIpServer(), 5000, playerClient);
-                    Thread t = new Thread(c);
-                    t.start();
-                }
+
                 s = 15;
                 cs = 0;
                 tiem.start();
@@ -317,11 +309,11 @@ public class Partida extends javax.swing.JFrame implements Observer {
                     score++;
                     jlscore.setText("" + score);
                     rondas++;
-                    errores=0;
+                    errores = 0;
                     adivina = null;
                     letras.clear();
                     jlimagen.setIcon(img[0]);
-                    
+
                     comienza(copy_ob);
                 } else {
                     tiem.start();
@@ -339,7 +331,7 @@ public class Partida extends javax.swing.JFrame implements Observer {
                 if (errores == 6) {
                     Mensaje.error(this, "Ronda perdida");
                     rondas++;
-                    errores=0;
+                    errores = 0;
                     adivina = null;
                     letras.clear();
                     jlimagen.setIcon(img[0]);
@@ -352,15 +344,7 @@ public class Partida extends javax.swing.JFrame implements Observer {
             }
         }
         jtfletra.setText("");
-        if(rondas==2){
-            String mensaje = "Soy " + playerClient.getUsername() + " ya termine de jugar";
-            playerClient.setMensaje(mensaje);
-            playerClient.setTipoMensaje(3);
-            playerClient.setScore(score);
-            EnviarMensaje c = new EnviarMensaje(playerClient.getIpServer(), 5000, playerClient);
-            Thread t = new Thread(c);
-            t.start();
-        }
+
 
     }//GEN-LAST:event_AccesActionPerformed
 
@@ -483,18 +467,29 @@ public class Partida extends javax.swing.JFrame implements Observer {
     boolean repetir = true;
 
     private void comienza(Mensajes obj) {
-        copy_ob = obj;
-        String palabra, tema, pista;
-        Mensaje.exito(this, "Comienza ronda " + (rondas + 1));
-        errores = 0;
-        repetir = false;
-        palabra = obj.getPalabrasFull().get(rondas).getPalabra().trim();
-        tema = obj.getPalabrasFull().get(rondas).getTema().trim();
-        pista = obj.getPalabrasFull().get(rondas).getPista().trim();
-        jltema.setText(tema);
-        jlpista.setText("Pista: " + pista);
-        ronda(palabra, errores);
-        tiem.start();
+        if (rondas == 2) {
+            String mensaje = "Soy " + playerClient.getUsername() + " ya termine de jugar";
+            playerClient.setMensaje(mensaje);
+            playerClient.setTipoMensaje(3);
+            playerClient.setScore(score);
+            EnviarMensaje c = new EnviarMensaje(playerClient.getIpServer(), 5000, playerClient);
+            Thread t = new Thread(c);
+            t.start();
+        } else {
+            copy_ob = obj;
+            String palabra, tema, pista;
+            Mensaje.exito(this, "Comienza ronda " + (rondas + 1));
+            errores = 0;
+            repetir = false;
+            palabra = obj.getPalabrasFull().get(rondas).getPalabra().trim();
+            tema = obj.getPalabrasFull().get(rondas).getTema().trim();
+            pista = obj.getPalabrasFull().get(rondas).getPista().trim();
+            jltema.setText(tema);
+            jlpista.setText("Pista: " + pista);
+            ronda(palabra, errores);
+            tiem.start();
+        }
+
     }
 
     private void ronda(String palabra, int errores) {
