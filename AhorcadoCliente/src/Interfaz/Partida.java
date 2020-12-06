@@ -354,7 +354,7 @@ public class Partida extends javax.swing.JFrame implements Observer {
             for (int i = 0; i < adivina.length; i++) {
                 pal_ff = pal_ff + adivina[i] + " ";
             }
-            System.out.println("-"+adivina);
+            System.out.println("-" + Arrays.toString(adivina));
             jlpalabra.setText(pal_ff);
         } else {
             Mensaje.error(this, "Letra incorrecta");
@@ -497,7 +497,7 @@ public class Partida extends javax.swing.JFrame implements Observer {
     private void comienza(Mensajes obj) {
         copy_ob = obj;
         String palabra, tema, pista;
-        Mensaje.exito(this, "Comienza ronda " + rondas + 1);
+        Mensaje.exito(this, "Comienza ronda " + (rondas + 1));
         errores = 0;
         repetir = false;
         palabra = obj.getPalabrasFull().get(rondas).getPalabra().trim();
@@ -527,12 +527,11 @@ public class Partida extends javax.swing.JFrame implements Observer {
     }
 
     private boolean verifica_win() {
-        for (int i = 0; i < adivina.length; i++) {
-            if (adivina[i].equals("_ ")) {
-                System.out.print("~"+adivina[i]);
-                return false;
-            }
+
+        if (!Arrays.toString(adivina).equals(letras.toString())) {
+            return false;
         }
+
         return true;
     }
 
