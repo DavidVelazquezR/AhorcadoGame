@@ -457,7 +457,7 @@ public class Partida extends javax.swing.JFrame implements Observer {
             Mensaje.error(this, obj.getMensaje());
             this.dispose();
             System.exit(0);
-            new LoginClient().setVisible(true);
+            ///new LoginClient().setVisible(true);
         }
     }
 
