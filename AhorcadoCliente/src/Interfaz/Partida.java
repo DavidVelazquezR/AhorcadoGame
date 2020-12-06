@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Observer;
 import java.util.Observable;
 import javax.swing.Icon;
@@ -19,7 +20,7 @@ public class Partida extends javax.swing.JFrame implements Observer {
     Mensajes playerClient = new Mensajes();
     int xy, xx;
     ArrayList<Mensajes> palabras = new ArrayList<Mensajes>();
-    String[] adivina;///establece guines de cada letra
+    String[] adivina = null;///establece guines de cada letra
     ArrayList<String> letras = new ArrayList<String>();
     int errores = 0;
     int rondas = 0;
@@ -353,6 +354,7 @@ public class Partida extends javax.swing.JFrame implements Observer {
             for (int i = 0; i < adivina.length; i++) {
                 pal_ff = pal_ff + adivina[i] + " ";
             }
+            System.out.println("-"+adivina);
             jlpalabra.setText(pal_ff);
         } else {
             Mensaje.error(this, "Letra incorrecta");
@@ -498,11 +500,11 @@ public class Partida extends javax.swing.JFrame implements Observer {
         Mensaje.exito(this, "Comienza ronda " + rondas + 1);
         errores = 0;
         repetir = false;
-        palabra = obj.getPalabrasFull().get(rondas).getPalabra();
-        tema = obj.getPalabrasFull().get(rondas).getTema();
-        pista = obj.getPalabrasFull().get(rondas).getPista();
+        palabra = obj.getPalabrasFull().get(rondas).getPalabra().trim();
+        tema = obj.getPalabrasFull().get(rondas).getTema().trim();
+        pista = obj.getPalabrasFull().get(rondas).getPista().trim();
         jltema.setText(tema);
-        jlpista.setText("Pista: "+pista);
+        jlpista.setText("Pista: " + pista);
         ronda(palabra, errores);
         tiem.start();
     }
@@ -510,9 +512,9 @@ public class Partida extends javax.swing.JFrame implements Observer {
     private void ronda(String palabra, int errores) {
         adivina = new String[palabra.length()];
         for (int i = 0; i < palabra.length(); i++) {
-            if(palabra.charAt(i)==' '){
+            if (palabra.charAt(i) == ' ') {
                 adivina[i] = "  ";
-            }else{
+            } else {
                 adivina[i] = "_ ";
             }
             letras.add(palabra.charAt(i) + "");
@@ -527,6 +529,7 @@ public class Partida extends javax.swing.JFrame implements Observer {
     private boolean verifica_win() {
         for (int i = 0; i < adivina.length; i++) {
             if (adivina[i].equals("_ ")) {
+                System.out.print("~"+adivina[i]);
                 return false;
             }
         }
