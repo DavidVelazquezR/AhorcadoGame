@@ -30,7 +30,6 @@ public class LoginClient extends javax.swing.JFrame {
      */
     public LoginClient() {
         initComponents();
-        jlespera.setVisible(false);
         this.setLocationRelativeTo(null);
 
         //Restricciones
@@ -159,7 +158,6 @@ public class LoginClient extends javax.swing.JFrame {
             Thread t = new Thread(c);
             t.start();
             boolean wait = true;
-            jlespera.setVisible(true);
 
             Partida p = new Partida(playerClient);
             this.dispose();
