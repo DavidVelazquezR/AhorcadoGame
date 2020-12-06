@@ -341,10 +341,15 @@ public class LoginServer extends javax.swing.JFrame implements Observer {
             Mensajes obj_fin1 = obj;
             counterScore++;
             if (counterScore == 1) {
-                ar_scores[0] = obj.getScore();
+                
+                for (int i = 0; i < usuariosRegistro.size(); i++) {
+                    if (usuariosRegistro.get(i).getIpHamachi().equals(obj.getIpHamachi())) {
+                        ar_scores[i] = obj.getScore();
+                    }
+                }
             } else if (counterScore == 2) {
                 ar_scores[1] = obj.getScore();
-                if (ar_scores[0] > ar_scores[1]) {
+                if (ar_scores[1] > ar_scores[1]) {
                     obj_fin1.setMensaje("Ganaste!! ");
                     obj_fin1.setTipoMensaje(4);
                     EnviarMensaje objFF1  = new EnviarMensaje(usuariosRegistro.get(0).getIpHamachi(), 5000, obj_fin1);
