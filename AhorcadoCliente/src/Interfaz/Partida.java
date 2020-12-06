@@ -31,7 +31,7 @@ public class Partida extends javax.swing.JFrame implements Observer {
         initComponents();
         this.setLocationRelativeTo(null);
         for (int i = 0; i < img.length; i++) {
-            img[i] = new ImageIcon("/src/Imagenes/i" + (i) + ".png");
+            img[i] = new ImageIcon("src/Imagenes/i" + (i) + ".png");
         }
         //para restriccion en casilla
         RestrictedTextField r = new RestrictedTextField(jtfletra);
@@ -384,6 +384,7 @@ public class Partida extends javax.swing.JFrame implements Observer {
             tiem.stop();
         }
         this.dispose();
+        System.exit(0);
     }//GEN-LAST:event_jLabel3MouseClicked
 
     private void jPanel1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseDragged
@@ -508,7 +509,7 @@ public class Partida extends javax.swing.JFrame implements Observer {
 
     private void ronda(String palabra, int errores) {
         adivina = new String[palabra.length()];
-        for (int i = 0; i < palabra.length() - 1; i++) {
+        for (int i = 0; i < palabra.length(); i++) {
             if(palabra.charAt(i)==' '){
                 adivina[i] = "  ";
             }else{
